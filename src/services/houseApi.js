@@ -65,8 +65,6 @@ async function request(endpoint, { method = 'GET', body } = {}) {
   return /** @type {Promise<T>} */ (resp.json())
 }
 
-// ---------- Utilities -------------------------------------------------------
-
 /**
  * Convert a plain house payload into `FormData` as required by the API.
  *
@@ -80,8 +78,6 @@ function toFormData(payload) {
   }
   return data
 }
-
-// ---------- Public API ------------------------------------------------------
 
 /**
  * Fetch all houses.
