@@ -1,9 +1,17 @@
-<script setup></script>
-
 <template>
-  <div class="container">
-    <h1>Hello World</h1>
+  <div>
+    <nav>
+      <ul>
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/about">About</router-link></li>
+      </ul>
+    </nav>
+    <router-view />
   </div>
 </template>
 
-<style scoped></style>
+<script>
+export default {
+  name: 'App',
+}
+</script>
