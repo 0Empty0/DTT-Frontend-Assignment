@@ -7,7 +7,7 @@
   /* Element colours */
   --color-primary: #eb5440; /* PRIMARY */
   --color-secondary: #4a4b4c; /* SECONDARY */
-  --color-tertiary: #ebe8e8; /* TERTIARY (light) */
+  --color-tertiary: #e8e8e8; /* TERTIARY (light) */
   --color-tertiary-alt: #c3c3c3; /* TERTIARY (dark) */
   --color-background-1: #f6f6f6; /* BACKGROUND 1 */
   --color-background-2: #ffffff; /* BACKGROUND 2 */
@@ -36,6 +36,8 @@
   --f-error-mobile: 12px;
   --f-body-desktop: 18px;
   --f-body-mobile: 12px;
+  --f-meta-desktop: 16px;
+  --f-meta-mobile: 12px;
 }
 
 body {
@@ -53,6 +55,7 @@ body {
 }
 
 .main {
+  margin: 0 auto;
   padding-top: 2rem;
   flex: 1;
 }

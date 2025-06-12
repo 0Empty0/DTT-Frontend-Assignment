@@ -7,22 +7,19 @@
 /**
  * @typedef {Object} House
  * @property {number} id
+ * @property {string} image
  * @property {number} price
- * @property {number} bedrooms
- * @property {number} bathrooms
+ * @property {{ bedrooms: number, bathrooms: number }} rooms
  * @property {number} size
- * @property {string} streetName
- * @property {number} houseNumber
- * @property {string | null} numberAddition
- * @property {string} zip
- * @property {string} city
+ * @property {string} description
+ * @property {{ street: string, houseNumber: number, houseNumberAddition: string|null, city: string, zip: string }} location
+ * @property {string} createdAt
  * @property {number} constructionYear
  * @property {boolean} hasGarage
- * @property {string} description
- * @property {string | null} image
+ * @property {boolean} madeByMe
  */
 
-const API_BASE = import.meta.env.VITE_APP_API_BASE_URL
+const API_BASE = import.meta.env.VITE_APP_BASE_API_URL
 
 /**
  * Generic network helper that wraps the Fetch API.
@@ -53,8 +50,8 @@ async function request(endpoint, { method = 'GET', body } = {}) {
     try {
       const { error } = await resp.clone().json()
       if (error) message = error
-    } catch {
-      console.error('Failed to parse error response')
+    } catch (e) {
+      console.error('Failed to parse error response: ', e)
     }
     throw new Error(message)
   }
