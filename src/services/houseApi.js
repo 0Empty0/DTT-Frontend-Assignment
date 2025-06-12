@@ -22,7 +22,7 @@
  * @property {string | null} image
  */
 
-const API_BASE = 'https://api.intern.d-tt.nl/api'
+const API_BASE = import.meta.env.VITE_APP_API_BASE_URL
 
 /**
  * Generic network helper that wraps the Fetch API.
