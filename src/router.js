@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import DefaultLayout from '@/components/layouts/DefaultLayout.vue'
-import FrontLayout from '@/components/layouts/FrontLayout.vue'
+import FormLayout from '@/components/layouts/FormLayout.vue'
 
 import HomePage from '@/pages/HomePage.vue'
 import AboutPage from '@/pages/AboutPage.vue'
@@ -45,7 +45,7 @@ const routes = [
   },
   {
     path: '/house/new',
-    component: FrontLayout,
+    component: FormLayout,
     children: [
       {
         path: '',
@@ -56,7 +56,7 @@ const routes = [
   },
   {
     path: '/house/edit/:id',
-    component: FrontLayout,
+    component: FormLayout,
     children: [
       {
         path: '',
