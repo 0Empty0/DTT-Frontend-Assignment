@@ -7,6 +7,8 @@ import PrimaryButton from '@/components/ui/PrimaryButton.vue'
 import ToggleTabs from '@/components/ui/ToggleTabs.vue'
 import BaseIcon from '@/components/ui/BaseIcon.vue'
 
+import emptyHouses from '@/assets/images/img_empty_houses@3x.png'
+
 const houseStore = useHouseStore()
 
 onMounted(() => {
@@ -42,11 +44,12 @@ function handleCreate() {
   </div>
   <div v-if="houseStore.status === 'loading'" class="houses-loading">Loading…</div>
   <div v-else-if="houseStore.status === 'error'" class="houses-error">{{ houseStore.error }}</div>
-  <div v-else-if="houseStore.filteredSortedList.length === 0" class="houses-empty">
-    No houses found.
-  </div>
+
   <div v-else>
-    <div v-if="houseStore.searchTerm !== ''" class="houses-found">
+    <div
+      v-if="houseStore.searchTerm !== '' && houseStore.filteredSortedList.length !== 0"
+      class="houses-found"
+    >
       {{ houseStore.filteredSortedList.length }} results found
     </div>
     <HouseCard
@@ -56,7 +59,11 @@ function handleCreate() {
       @edit="handleEdit"
       @delete="handleDelete"
     />
-    <div v-if="!houseStore.filteredSortedList.length" class="houses-empty">No houses found.</div>
+    <div v-if="!houseStore.filteredSortedList.length" class="houses-empty">
+      <img :src="emptyHouses" alt="No results found" />
+      <p class="message">No results found.</p>
+      <p>Please try another keyword.</p>
+    </div>
   </div>
 </template>
 
@@ -88,11 +95,29 @@ export default {
   margin-bottom: 2rem;
 }
 .houses-loading,
-.houses-error,
-.houses-empty {
+.houses-error {
   text-align: center;
   color: var(--text-color-secondary);
   margin-top: 2rem;
+}
+.houses-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 5rem;
+  text-align: center;
+  color: var(--text-color-secondary);
+}
+.houses-empty img {
+  width: 250px;
+}
+.houses-empty .message {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--text-color-primary);
+  margin: 0;
 }
 .houses-found {
   font-size: var(--f-body-desktop);
