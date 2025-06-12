@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHouseStore } from '@/stores/houseStore'
 import HouseCard from '@/components/HouseCard.vue'
@@ -20,10 +20,11 @@ const houseImageUrl = computed(() => {
 })
 
 const recommendedList = computed(() => {
-  return houseStore.filteredSortedList.filter((item) => item.id !== house.value?.id).slice(0, 3)
+  if (!house.value) return []
+  return houseStore.filteredSortedList.filter((item) => item.id !== house.value.id).slice(0, 3)
 })
 
-onMounted(async () => {
+const fetchHouseDetails = async (id) => {
   try {
     house.value = await houseStore.fetchHouseById(route.params.id)
 
@@ -31,10 +32,23 @@ onMounted(async () => {
       await houseStore.fetchHouses()
     }
   } catch (error) {
-    console.error('Failed to fetch house details:', error)
+    console.error(`Failed to fetch house details for ID ${id}:`, error)
     router.push({ name: 'Home' })
   }
+}
+
+onMounted(() => {
+  fetchHouseDetails(route.params.id)
 })
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    if (newId) {
+      fetchHouseDetails(newId)
+    }
+  },
+)
 
 const goBack = () => {
   router.back()
@@ -120,7 +134,7 @@ const deleteListing = async () => {
 
     <aside class="sidebar">
       <h2>Recommended for you</h2>
-      <div v-if="recommendedList.length">
+      <div v-if="recommendedList.length" class="recommended-list">
         <HouseCard v-for="item in recommendedList" :key="item.id" :house="item" />
       </div>
       <div v-else>
@@ -142,7 +156,7 @@ const deleteListing = async () => {
   margin: 0 auto;
 }
 .main-content {
-  flex: 3;
+  flex: 2;
 }
 .house-details {
   background-color: var(--color-background-2);
@@ -156,6 +170,14 @@ const deleteListing = async () => {
 .sidebar {
   flex: 1;
   min-width: 300px;
+  margin-top: 2.5rem;
+}
+.recommended-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  container-type: inline-size;
+  container-name: house-card-container;
 }
 .back-link {
   display: flex;

@@ -40,7 +40,7 @@ const goToDetails = () => {
     <div class="house-content">
       <div class="house-header">
         <h2 class="house-title">{{ address }}</h2>
-        <div class="house-actions">
+        <div class="house-actions" v-if="house.madeByMe">
           <IconButton icon="edit" aria-label="Edit" @click.stop="$emit('edit', house)" size="16" />
           <IconButton
             icon="delete"
@@ -101,7 +101,7 @@ const goToDetails = () => {
 .house-title {
   font-size: var(--f-h2-desktop);
   font-weight: 700;
-  margin: 0 0 0.25rem 0;
+  margin-bottom: 0.25rem;
 }
 .house-actions {
   display: flex;
@@ -125,5 +125,40 @@ const goToDetails = () => {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+@container house-card-container (width < 768px) {
+  .house-content {
+    padding: 0.5rem;
+    padding-left: 1rem;
+  }
+  .house-card {
+    flex-direction: row;
+  }
+  .house-card + .house-card {
+    margin-top: 0.25rem;
+  }
+  .house-img {
+    height: 100px;
+  }
+  .house-title {
+    font-size: var(--f-h2-mobile);
+    margin-bottom: 0.125rem;
+  }
+  .house-meta {
+    gap: 0.75rem;
+    font-size: var(--f-meta-mobile);
+  }
+  .meta-item {
+    gap: 0.25rem;
+  }
+  .house-price {
+    font-size: var(--f-body-mobile);
+    margin-bottom: 0.125rem;
+  }
+  .house-location {
+    font-size: var(--f-meta-mobile);
+    margin-bottom: 0.5rem;
+  }
 }
 </style>
