@@ -53,6 +53,11 @@ export const useHouseStore = defineStore('houses', () => {
   })
 
   // Actions – wrap API methods & keep state in sync.
+  /**
+   * Fetches all houses.
+   * @returns {Promise<void>}
+   * @throws {Error} If the API request fails
+   */
   async function fetchHouses() {
     status.value = 'loading'
     error.value = null
@@ -68,15 +73,37 @@ export const useHouseStore = defineStore('houses', () => {
   /**
    * Fetch a single house (detail page).
    * We don't store it globally; just return the data.
+   * @param {number | string} id
+   * @returns {Promise<import('@/services/houseApi').House>}
+   * @throws {Error} If the house is not found
    */
-  const fetchHouseById = (id) => getHouseById(id)
+  async function fetchHouseById(id) {
+    const data = await getHouseById(id)
 
+    if (data) {
+      return Array.isArray(data) ? data[0] : data
+    }
+
+    throw new Error('House not found')
+  }
+
+  /**
+   * Adds a new house to the store.
+   * @param {import('@/services/houseApi').House} payload
+   * @returns {Promise<import('@/services/houseApi').House>}
+   */
   async function addHouse(payload) {
     const created = await createHouse(payload)
     list.value.push(created)
     return created
   }
 
+  /**
+   * Updates an existing house in the store.
+   * @param {number | string} id
+   * @param {import('@/services/houseApi').House} payload
+   * @returns {Promise<import('@/services/houseApi').House>}
+   */
   async function editHouse(id, payload) {
     const updated = await updateHouse(id, payload)
     const idx = list.value.findIndex((h) => h.id === Number(id))
@@ -84,12 +111,23 @@ export const useHouseStore = defineStore('houses', () => {
     return updated
   }
 
+  /**
+   * Removes a house from the store.
+   * @param {number | string} id
+   * @returns {Promise<void>}
+   */
   async function removeHouse(id) {
     await deleteHouse(id)
     const idx = list.value.findIndex((h) => h.id === Number(id))
     if (idx !== -1) list.value.splice(idx, 1)
   }
 
+  /**
+   * Replaces the image of a house.
+   * @param {number | string} id
+   * @param {File} file
+   * @returns {Promise<import('@/services/houseApi').House>}
+   */
   async function replaceImage(id, file) {
     const updated = await uploadHouseImage(id, file)
     const idx = list.value.findIndex((h) => h.id === Number(id))
