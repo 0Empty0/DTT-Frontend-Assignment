@@ -32,11 +32,13 @@ export const useHouseStore = defineStore('houses', () => {
     const term = searchTerm.value.trim().toLowerCase()
     if (term) {
       result = result.filter((h) => {
+        const { city, street, houseNumber, zip } = h.location
+
         return (
-          h.city.toLowerCase().includes(term) ||
-          h.streetName.toLowerCase().includes(term) ||
-          `${h.houseNumber}`.includes(term) ||
-          `${h.zip}`.toLowerCase().includes(term)
+          city.toLowerCase().includes(term) ||
+          street.toLowerCase().includes(term) ||
+          `${houseNumber}`.includes(term) ||
+          `${zip}`.toLowerCase().includes(term)
         )
       })
     }
