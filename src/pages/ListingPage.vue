@@ -26,12 +26,12 @@ const recommendedList = computed(() => {
 onMounted(async () => {
   try {
     house.value = await houseStore.fetchHouseById(route.params.id)
+
     if (!houseStore.list.length) {
       await houseStore.fetchHouses()
     }
   } catch (error) {
     console.error('Failed to fetch house details:', error)
-    // Optionally, redirect to a not-found page
     router.push({ name: 'Home' })
   }
 })
@@ -61,56 +61,64 @@ const deleteListing = async () => {
   <div class="listing-page" v-if="house">
     <div class="main-content">
       <div class="back-link" @click="goBack">
-        <BaseIcon name="back" color="grey" :size="[18, 18]" />
+        <BaseIcon name="back_grey" :size="20" />
         <span>Back to overview</span>
       </div>
 
-      <img :src="houseImageUrl" alt="House image" class="house-image" />
+      <article class="house-details">
+        <img :src="houseImageUrl" alt="House image" class="house-image" />
 
-      <div class="heading">
-        <h1 class="street-info">{{ house.location.street }} {{ house.location.houseNumber }}</h1>
-        <div v-if="house.madeByMe" class="actions">
-          <IconButton icon="edit" @click="goToEdit" />
-          <IconButton icon="delete" @click="deleteListing" />
-        </div>
-      </div>
+        <div class="house-details-content">
+          <div class="heading">
+            <h1 class="street-info">
+              {{ house.location.street }} {{ house.location.houseNumber }}
+            </h1>
+            <div v-if="house.madeByMe" class="actions">
+              <IconButton icon="edit" @click="goToEdit" />
+              <IconButton icon="delete" @click="deleteListing" />
+            </div>
+          </div>
 
-      <div class="location-info">
-        <BaseIcon name="location" />
-        <span>{{ house.location.zip }} {{ house.location.city }}</span>
-      </div>
+          <div class="location-info">
+            <BaseIcon name="location" size="16" />
+            <span>{{ house.location.zip }} {{ house.location.city }}</span>
+          </div>
 
-      <div class="details">
-        <div class="detail-item">
-          <BaseIcon name="price" />
-          <span>€ {{ house.price.toLocaleString() }}</span>
-        </div>
-        <div class="detail-item">
-          <BaseIcon name="size" />
-          <span>{{ house.size }} m2</span>
-        </div>
-        <div class="detail-item">
-          <BaseIcon name="construction" />
-          <span>Built in {{ house.constructionYear }}</span>
-        </div>
-        <div class="detail-item">
-          <BaseIcon name="bed" />
-          <span>{{ house.rooms.bedrooms }}</span>
-        </div>
-        <div class="detail-item">
-          <BaseIcon name="bath" />
-          <span>{{ house.rooms.bathrooms }}</span>
-        </div>
-        <div class="detail-item">
-          <BaseIcon name="garage" />
-          <span>{{ house.hasGarage ? 'Yes' : 'No' }}</span>
-        </div>
-      </div>
+          <div class="details">
+            <div class="detail-item">
+              <BaseIcon name="price" size="16" />
+              <span>{{ house.price.toLocaleString() }}</span>
+            </div>
+            <div class="detail-item">
+              <BaseIcon name="size" size="16" />
+              <span>{{ house.size }} m2</span>
+            </div>
+            <div class="detail-item">
+              <BaseIcon name="construction_date" size="16" />
+              <span>Built in {{ house.constructionYear }}</span>
+            </div>
+          </div>
+          <div class="details">
+            <div class="detail-item">
+              <BaseIcon name="bed" size="16" />
+              <span>{{ house.rooms.bedrooms }}</span>
+            </div>
+            <div class="detail-item">
+              <BaseIcon name="bath" size="16" />
+              <span>{{ house.rooms.bathrooms }}</span>
+            </div>
+            <div class="detail-item">
+              <BaseIcon name="garage" size="16" />
+              <span>{{ house.hasGarage ? 'Yes' : 'No' }}</span>
+            </div>
+          </div>
 
-      <p class="description">{{ house.description }}</p>
+          <p class="description">{{ house.description }}</p>
+        </div>
+      </article>
     </div>
 
-    <div class="sidebar">
+    <aside class="sidebar">
       <h2>Recommended for you</h2>
       <div v-if="recommendedList.length">
         <HouseCard v-for="item in recommendedList" :key="item.id" :house="item" />
@@ -118,7 +126,7 @@ const deleteListing = async () => {
       <div v-else>
         <p>No other houses available.</p>
       </div>
-    </div>
+    </aside>
   </div>
   <div v-else class="loading">
     <p>Loading house details...</p>
@@ -133,16 +141,22 @@ const deleteListing = async () => {
   max-width: 1200px;
   margin: 0 auto;
 }
-
 .main-content {
   flex: 3;
 }
-
+.house-details {
+  background-color: var(--color-background-2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.house-details-content {
+  padding: 1.25rem;
+}
 .sidebar {
   flex: 1;
   min-width: 300px;
 }
-
 .back-link {
   display: flex;
   align-items: center;
@@ -151,63 +165,50 @@ const deleteListing = async () => {
   margin-bottom: 1rem;
   font-weight: 600;
 }
-
 .house-image {
   width: 100%;
   height: auto;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
 }
-
 .heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
 }
-
 .street-info {
   font-size: 1.75rem;
   font-weight: bold;
 }
-
 .actions {
   display: flex;
   gap: 1rem;
 }
-
 .location-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
-
 .details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  display: flex;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
-
 .detail-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
-
 .description {
   line-height: 1.6;
   color: var(--text-secondary);
 }
-
 .sidebar h2 {
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
-
 .loading {
   text-align: center;
   padding: 4rem;

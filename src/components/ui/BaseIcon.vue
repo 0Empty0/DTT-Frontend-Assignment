@@ -29,5 +29,6 @@ const src = computed(
 <style scoped>
 img {
   display: inline-block;
+  object-fit: contain;
 }
 </style>

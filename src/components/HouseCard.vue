@@ -36,7 +36,7 @@ const goToDetails = () => {
 
 <template>
   <div class="house-card" @click="goToDetails">
-    <img :src="imageUrl" class="house-img" :alt="house.location.street" />
+    <img :src="imageUrl" class="house-img" :alt="house.title" />
     <div class="house-content">
       <div class="house-header">
         <h2 class="house-title">{{ address }}</h2>
