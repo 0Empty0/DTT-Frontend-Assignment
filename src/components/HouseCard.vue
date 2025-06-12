@@ -2,6 +2,7 @@
 import BaseIcon from './ui/BaseIcon.vue'
 import IconButton from './ui/IconButton.vue'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 /**
  * @typedef {import('@/services/houseApi').House} House
@@ -15,6 +16,8 @@ const props = defineProps({
   house: { type: Object, required: true },
 })
 
+const router = useRouter()
+
 const address = computed(() => {
   const { street, houseNumber, houseNumberAddition } = props.house.location
   return `${street} ${houseNumber}${houseNumberAddition ? houseNumberAddition : ''}`
@@ -25,17 +28,26 @@ const imageUrl = computed(
     props.house.image ||
     new URL('@/assets/images/img_placeholder_house@3x.png', import.meta.url).href,
 )
+
+const goToDetails = () => {
+  router.push({ name: 'Listing', params: { id: props.house.id } })
+}
 </script>
 
 <template>
-  <div class="house-card">
+  <div class="house-card" @click="goToDetails">
     <img :src="imageUrl" class="house-img" :alt="house.location.street" />
     <div class="house-content">
       <div class="house-header">
         <h2 class="house-title">{{ address }}</h2>
         <div class="house-actions">
-          <IconButton icon="edit" aria-label="Edit" @click="$emit('edit', house)" size="16" />
-          <IconButton icon="delete" aria-label="Delete" @click="$emit('delete', house)" size="16" />
+          <IconButton icon="edit" aria-label="Edit" @click.stop="$emit('edit', house)" size="16" />
+          <IconButton
+            icon="delete"
+            aria-label="Delete"
+            @click.stop="$emit('delete', house)"
+            size="16"
+          />
         </div>
       </div>
       <div class="house-price">€ {{ house.price.toLocaleString('nl-NL') }}</div>
@@ -60,6 +72,7 @@ const imageUrl = computed(
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
   overflow: hidden;
   align-items: stretch;
+  cursor: pointer;
 }
 .house-card + .house-card {
   margin-top: 1rem;
