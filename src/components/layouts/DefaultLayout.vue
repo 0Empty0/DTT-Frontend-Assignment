@@ -3,9 +3,9 @@ import AppHeader from '@/components/AppHeader.vue'
 </script>
 
 <template>
-  <div>
+  <div class="layout">
     <AppHeader />
-    <main><router-view /></main>
+    <main class="main container"><router-view /></main>
   </div>
 </template>
 
