@@ -42,7 +42,13 @@ function handleCreate() {
   </div>
   <div v-if="houseStore.status === 'loading'" class="houses-loading">Loading…</div>
   <div v-else-if="houseStore.status === 'error'" class="houses-error">{{ houseStore.error }}</div>
+  <div v-else-if="houseStore.filteredSortedList.length === 0" class="houses-empty">
+    No houses found.
+  </div>
   <div v-else>
+    <div v-if="houseStore.searchTerm !== ''" class="houses-found">
+      {{ houseStore.filteredSortedList.length }} results found
+    </div>
     <HouseCard
       v-for="house in houseStore.filteredSortedList"
       :key="house.id"
@@ -87,6 +93,11 @@ export default {
   text-align: center;
   color: var(--text-color-secondary);
   margin-top: 2rem;
+}
+.houses-found {
+  font-size: var(--f-body-desktop);
+  font-weight: 700;
+  margin-bottom: 2rem;
 }
 @media (max-width: 600px) {
   .houses-header,
