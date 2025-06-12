@@ -51,7 +51,7 @@ watch(
 )
 
 const goBack = () => {
-  router.back()
+  router.push({ name: 'Home' })
 }
 
 const goToEdit = () => {
