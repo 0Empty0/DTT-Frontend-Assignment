@@ -25,7 +25,7 @@ const internalValue = computed({
 <style scoped>
 .search {
   position: relative;
-  width: 100%;
+  width: 50%;
 }
 
 .search-icon {
@@ -41,13 +41,13 @@ const internalValue = computed({
   padding: 0.5rem 1rem 0.5rem 2.5rem;
   border: none;
   border-radius: 8px;
-  background: var(--color-background-2);
+  background: var(--color-tertiary);
   font-family: var(--font-secondary);
   font-size: var(--f-body-desktop);
 }
 
 .search-input::placeholder {
-  color: var(--text-color-secondary);
+  color: var(--color-secondary);
   font-family: var(--font-secondary);
 }
 </style>

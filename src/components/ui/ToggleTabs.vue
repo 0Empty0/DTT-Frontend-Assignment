@@ -29,13 +29,13 @@ function select(value) {
   display: inline-flex;
   background: var(--color-tertiary);
   border-radius: 8px;
-  overflow: hidden;
+  overflow: clip;
 }
 
 .tab {
   border: none;
   background: transparent;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 3.5rem;
   font-family: var(--font-primary);
   font-weight: 600;
   cursor: pointer;

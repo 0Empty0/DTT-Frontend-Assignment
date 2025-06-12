@@ -59,11 +59,13 @@ const imageUrl = computed(
   border-radius: 0.375rem;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
   overflow: hidden;
-  margin-bottom: 1.5rem;
   align-items: stretch;
 }
+.house-card + .house-card {
+  margin-top: 1rem;
+}
 .house-img {
-  height: 120px;
+  height: 152px;
   aspect-ratio: 1/1;
   object-fit: cover;
   flex-shrink: 0;

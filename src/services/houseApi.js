@@ -19,7 +19,7 @@
  * @property {boolean} madeByMe
  */
 
-const API_BASE = import.meta.env.VITE_APP_API_BASE_URL
+const API_BASE = import.meta.env.VITE_APP_BASE_API_URL
 
 /**
  * Generic network helper that wraps the Fetch API.
@@ -50,8 +50,8 @@ async function request(endpoint, { method = 'GET', body } = {}) {
     try {
       const { error } = await resp.clone().json()
       if (error) message = error
-    } catch {
-      console.error('Failed to parse error response')
+    } catch (e) {
+      console.error('Failed to parse error response: ', e)
     }
     throw new Error(message)
   }
