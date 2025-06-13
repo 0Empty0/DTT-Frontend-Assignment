@@ -1,17 +1,38 @@
 <script setup>
-defineProps({
+import { ref, watch } from 'vue'
+import { useDebounce } from '@/composables/useDebounce'
+
+const props = defineProps({
   modelValue: { type: String, default: '' },
   label: { type: String, required: true },
   placeholder: { type: String, default: '' },
   id: { type: String, required: true },
-  error: { type: String, default: '' },
+  validator: { type: Function, default: () => '' },
+  formatter: { type: Function, default: (value) => value },
+  parser: { type: Function, default: (value) => value },
 })
 
 const emit = defineEmits(['update:modelValue'])
+const error = ref('')
+
+const runValidation = () => {
+  error.value = props.validator(props.modelValue)
+}
+
+const debouncedValidate = useDebounce(runValidation, 200)
+
+watch(() => props.modelValue, debouncedValidate)
+
+const validate = () => {
+  runValidation()
+  return !error.value
+}
 
 const updateValue = (event) => {
   emit('update:modelValue', event.target.value)
 }
+
+defineExpose({ validate })
 </script>
 
 <template>
@@ -21,6 +42,7 @@ const updateValue = (event) => {
       :id="id"
       :value="modelValue"
       @input="updateValue"
+      @blur="runValidation"
       :placeholder="placeholder"
       :class="{ 'is-invalid': error }"
     ></textarea>

@@ -1,17 +1,24 @@
 <script setup>
 import { ref, watch } from 'vue'
+import { useDebounce } from '@/composables/useDebounce'
 import IconButton from './IconButton.vue'
 
 const props = defineProps({
   modelValue: { type: [String, File], default: null },
   label: { type: String, required: true },
-  error: { type: String, default: '' },
+  validator: { type: Function, default: () => '' },
 })
 
 const emit = defineEmits(['update:modelValue'])
-
+const error = ref('')
 const picture = ref(null)
 const fileInput = ref(null)
+
+const runValidation = () => {
+  error.value = props.validator(props.modelValue)
+}
+
+const debouncedValidate = useDebounce(runValidation, 200)
 
 watch(
   () => props.modelValue,
@@ -19,8 +26,14 @@ watch(
     if (typeof newValue === 'string') {
       picture.value = newValue
     }
+    debouncedValidate()
   },
 )
+
+const validate = () => {
+  runValidation()
+  return !error.value
+}
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0]
@@ -43,6 +56,8 @@ const removeImage = (e) => {
   emit('update:modelValue', null)
   picture.value = null
 }
+
+defineExpose({ validate })
 </script>
 
 <template>
@@ -53,6 +68,7 @@ const removeImage = (e) => {
         type="file"
         ref="fileInput"
         @change="handleFileUpload"
+        @blur="runValidation"
         accept="image/png, image/jpeg"
         class="file-input"
       />
@@ -111,7 +127,7 @@ label {
 }
 
 .is-invalid {
-  border: 1px solid var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .error-message {

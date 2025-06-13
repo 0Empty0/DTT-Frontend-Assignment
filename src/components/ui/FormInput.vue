@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useDebounce } from '@/composables/useDebounce'
 
 const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
@@ -7,7 +8,7 @@ const props = defineProps({
   placeholder: { type: String, default: '' },
   type: { type: String, default: 'text' },
   id: { type: String, required: true },
-  error: { type: String, default: '' },
+  validator: { type: Function, default: () => '' },
   formatter: { type: Function, default: (value) => value },
   parser: { type: Function, default: (value) => value },
 })
@@ -15,11 +16,27 @@ const props = defineProps({
 const isFocused = ref(false)
 
 const emit = defineEmits(['update:modelValue'])
+const error = ref('')
+
+const runValidation = () => {
+  error.value = props.validator(props.modelValue)
+}
+
+const debouncedValidate = useDebounce(runValidation, 200)
+
+watch(() => props.modelValue, debouncedValidate)
+
+const validate = () => {
+  runValidation()
+  return !error.value
+}
 
 const updateValue = (event) => {
   const value = props.parser(event.target.value)
   emit('update:modelValue', value)
 }
+
+defineExpose({ validate })
 </script>
 
 <template>
@@ -30,10 +47,15 @@ const updateValue = (event) => {
       :type="type"
       :value="isFocused ? modelValue : formatter(modelValue)"
       @input="updateValue"
+      @focus="isFocused = true"
+      @blur="
+        () => {
+          isFocused = false
+          runValidation()
+        }
+      "
       :placeholder="placeholder"
       :class="{ 'is-invalid': error }"
-      @focus="isFocused = true"
-      @blur="isFocused = false"
     />
     <span v-if="error" class="error-message">{{ error }}</span>
   </div>

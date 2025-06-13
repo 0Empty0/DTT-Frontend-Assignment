@@ -1,23 +1,48 @@
 <script setup>
-defineProps({
+import { ref, watch } from 'vue'
+import { useDebounce } from '@/composables/useDebounce'
+
+const props = defineProps({
   modelValue: { type: String, default: '' },
   label: { type: String, required: true },
   id: { type: String, required: true },
   options: { type: Array, required: true },
-  error: { type: String, default: '' },
+  validator: { type: Function, default: () => '' },
 })
 
 const emit = defineEmits(['update:modelValue'])
+const error = ref('')
+
+const runValidation = () => {
+  error.value = props.validator(props.modelValue)
+}
+
+const debouncedValidate = useDebounce(runValidation, 200)
+
+watch(() => props.modelValue, debouncedValidate)
+
+const validate = () => {
+  runValidation()
+  return !error.value
+}
 
 const updateValue = (event) => {
   emit('update:modelValue', event.target.value)
 }
+
+defineExpose({ validate })
 </script>
 
 <template>
   <div class="form-group">
     <label :for="id">{{ label }}</label>
-    <select :id="id" :value="modelValue" @change="updateValue" :class="{ 'is-invalid': error }">
+    <select
+      :id="id"
+      :value="modelValue"
+      @change="updateValue"
+      @blur="runValidation"
+      :class="{ 'is-invalid': error }"
+    >
       <option value="" disabled>Select</option>
       <option v-for="option in options" :key="option.value" :value="option.value">
         {{ option.label }}
