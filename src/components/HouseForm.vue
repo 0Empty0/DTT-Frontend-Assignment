@@ -114,6 +114,9 @@ const handleSubmit = () => {
       label="Price*"
       placeholder="e.g. €150.000"
       :error="errors.price"
+      type="text"
+      :formatter="(value) => (value ? `€${Number(value).toLocaleString()}` : '')"
+      :parser="(value) => value.replace(/[^0-9]/g, '')"
     />
 
     <div class="form-row">
@@ -123,6 +126,8 @@ const handleSubmit = () => {
         label="Size*"
         placeholder="e.g. 60m2"
         :error="errors.size"
+        :formatter="(value) => (value ? `${Number(value).toLocaleString()} m2` : '')"
+        :parser="(value) => value.replace(/[^0-9]/g, '')"
       />
       <FormSelect
         id="garage"

@@ -1,17 +1,24 @@
 <script setup>
-defineProps({
+import { ref } from 'vue'
+
+const props = defineProps({
   modelValue: { type: [String, Number], default: '' },
   label: { type: String, required: true },
   placeholder: { type: String, default: '' },
   type: { type: String, default: 'text' },
   id: { type: String, required: true },
   error: { type: String, default: '' },
+  formatter: { type: Function, default: (value) => value },
+  parser: { type: Function, default: (value) => value },
 })
+
+const isFocused = ref(false)
 
 const emit = defineEmits(['update:modelValue'])
 
 const updateValue = (event) => {
-  emit('update:modelValue', event.target.value)
+  const value = props.parser(event.target.value)
+  emit('update:modelValue', value)
 }
 </script>
 
@@ -21,10 +28,12 @@ const updateValue = (event) => {
     <input
       :id="id"
       :type="type"
-      :value="modelValue"
+      :value="isFocused ? modelValue : formatter(modelValue)"
       @input="updateValue"
       :placeholder="placeholder"
       :class="{ 'is-invalid': error }"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     />
     <span v-if="error" class="error-message">{{ error }}</span>
   </div>
