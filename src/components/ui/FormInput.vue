@@ -44,7 +44,7 @@ input {
   padding: 0.75rem;
   border: none;
   border-radius: 8px;
-  background-color: var(--color-tertiary);
+  background-color: var(--color-background-2);
   font-family: var(--font-secondary);
   font-size: var(--f-body-mobile);
 }
