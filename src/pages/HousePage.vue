@@ -1,12 +1,12 @@
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useHouseStore } from '@/stores/houseStore'
 import HouseCard from '@/components/HouseCard.vue'
 import BaseIcon from '@/components/ui/BaseIcon.vue'
-import IconButton from '@/components/ui/IconButton.vue'
-import GoBackButton from '@/components/ui/GoBackButton.vue'
 import DeleteModal from '@/components/ui/DeleteModal.vue'
+import GoBackButton from '@/components/ui/GoBackButton.vue'
+import IconButton from '@/components/ui/IconButton.vue'
+import { useHouseStore } from '@/stores/houseStore'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
@@ -83,17 +83,25 @@ const confirmDelete = async () => {
 <template>
   <div class="listing-page" v-if="house">
     <div class="main-content">
-      <GoBackButton @goBack="goBack" label="Back to overview" />
+      <GoBackButton @goBack="goBack" label="Back to overview" class="go-back-button-desktop" />
+      <div class="image-header">
+        <img :src="houseImageUrl" alt="House image" class="house-image" />
+        <div class="header-actions">
+          <IconButton icon="back_white" class="back-button" @click="goBack" />
+          <div v-if="house.madeByMe" class="actions">
+            <IconButton icon="edit_white" @click="goToEdit" />
+            <IconButton icon="delete_white" @click="deleteListing" />
+          </div>
+        </div>
+      </div>
 
       <article class="house-details">
-        <img :src="houseImageUrl" alt="House image" class="house-image" />
-
         <div class="house-details-content">
           <div class="heading">
             <h1 class="street-info">
               {{ house.location.street }} {{ house.location.houseNumber }}
             </h1>
-            <div v-if="house.madeByMe" class="actions">
+            <div v-if="house.madeByMe" class="actions-desktop">
               <IconButton icon="edit" @click="goToEdit" />
               <IconButton icon="delete" @click="deleteListing" />
             </div>
@@ -156,11 +164,7 @@ const confirmDelete = async () => {
 
 <style scoped>
 .listing-page {
-  display: flex;
-  gap: 2rem;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  background-color: var(--color-background-2);
 }
 .main-content {
   flex: 2;
@@ -170,6 +174,22 @@ const confirmDelete = async () => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.image-header {
+  position: relative;
+}
+
+.header-actions {
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  padding: 0 1rem;
 }
 .house-details-content {
   padding: 1.25rem;
@@ -189,6 +209,7 @@ const confirmDelete = async () => {
 .house-image {
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
 .heading {
   display: flex;
@@ -202,6 +223,10 @@ const confirmDelete = async () => {
 }
 .actions {
   display: flex;
+  gap: 1rem;
+}
+.actions-desktop {
+  display: none;
   gap: 1rem;
 }
 .location-info {
@@ -233,5 +258,83 @@ const confirmDelete = async () => {
 .loading {
   text-align: center;
   padding: 4rem;
+}
+
+.go-back-button-desktop {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .listing-page {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 641px) {
+  .go-back-button-desktop {
+    display: flex;
+  }
+
+  .listing-page {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--color-background-1);
+  }
+
+  .image-header {
+    position: static;
+  }
+
+  .header-actions {
+    display: none;
+  }
+
+  .actions-desktop {
+    display: flex;
+  }
+
+  .house-details-content {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .go-back-button-desktop {
+    display: none;
+  }
+  .house-image {
+    height: 55vh;
+  }
+  .main-content {
+    padding: 0;
+  }
+  .listing-page {
+    padding: 0;
+  }
+  .house-details-content {
+    padding: 1.5rem;
+    margin-top: -5rem;
+    background: var(--color-background-2);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    position: relative;
+    z-index: 5;
+  }
+  .actions-desktop {
+    display: none;
+  }
+  .location-info {
+    margin-bottom: 0.5rem;
+  }
+  .sidebar {
+    margin-top: 0;
+    padding: 1rem;
+  }
+  .house-details-content {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  }
 }
 </style>
