@@ -6,12 +6,14 @@ import HouseCard from '@/components/HouseCard.vue'
 import BaseIcon from '@/components/ui/BaseIcon.vue'
 import IconButton from '@/components/ui/IconButton.vue'
 import GoBackButton from '@/components/ui/GoBackButton.vue'
+import DeleteModal from '@/components/ui/DeleteModal.vue'
 
 const route = useRoute()
 const router = useRouter()
 const houseStore = useHouseStore()
 
 const house = ref(null)
+const showDeleteModal = ref(false)
 
 const houseImageUrl = computed(() => {
   if (house.value?.image) {
@@ -61,15 +63,19 @@ const goToEdit = () => {
   router.push(`/house/edit/${house.value.id}`)
 }
 
-const deleteListing = async () => {
-  if (window.confirm('Are you sure you want to delete this listing?')) {
-    try {
-      await houseStore.removeHouse(house.value.id)
-      router.push({ name: 'Home' })
-    } catch (error) {
-      console.error('Failed to delete listing:', error)
-      alert('Failed to delete listing.')
-    }
+const deleteListing = () => {
+  showDeleteModal.value = true
+}
+
+const confirmDelete = async () => {
+  try {
+    await houseStore.removeHouse(house.value.id)
+    router.push({ name: 'Home' })
+  } catch (error) {
+    console.error('Failed to delete listing:', error)
+    alert('Failed to delete listing.')
+  } finally {
+    showDeleteModal.value = false
   }
 }
 </script>
@@ -145,6 +151,7 @@ const deleteListing = async () => {
   <div v-else class="loading">
     <p>Loading house details...</p>
   </div>
+  <DeleteModal :show="showDeleteModal" @close="showDeleteModal = false" @confirm="confirmDelete" />
 </template>
 
 <style scoped>
