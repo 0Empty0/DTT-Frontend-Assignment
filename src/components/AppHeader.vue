@@ -48,4 +48,10 @@ import logo from '@/assets/images/img_logo_dtt@3x.png'
   font-weight: 700;
   color: #000;
 }
+
+@media (max-width: 640px) {
+  .header {
+    display: none;
+  }
+}
 </style>

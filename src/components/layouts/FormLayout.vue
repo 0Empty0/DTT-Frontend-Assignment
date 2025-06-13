@@ -1,5 +1,6 @@
 <script setup>
 import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 import backgroundImage from '@/assets/images/img_background@3x.png'
 </script>
@@ -8,6 +9,7 @@ import backgroundImage from '@/assets/images/img_background@3x.png'
   <div class="layout">
     <AppHeader />
     <main class="main container"><router-view /></main>
+    <AppFooter />
     <img :src="backgroundImage" alt="background" class="background" />
   </div>
 </template>
