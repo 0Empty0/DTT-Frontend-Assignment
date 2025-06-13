@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import FormInput from '@/components/ui/FormInput.vue'
 import FormTextarea from '@/components/ui/FormTextarea.vue'
 import FormSelect from '@/components/ui/FormSelect.vue'
@@ -10,6 +10,10 @@ const props = defineProps({
   initialData: { type: Object, default: () => ({}) },
   isEdit: { type: Boolean, default: false },
   errors: { type: Object, default: () => ({}) },
+})
+
+const isDisabled = computed(() => {
+  return Object.values(props.errors).some((error) => error !== '')
 })
 
 const emit = defineEmits(['submit'])
@@ -153,7 +157,9 @@ const handleSubmit = () => {
       :error="errors.description"
     />
 
-    <PrimaryButton type="submit">{{ isEdit ? 'SAVE' : 'POST' }}</PrimaryButton>
+    <PrimaryButton type="submit" :disabled="isDisabled">{{
+      isEdit ? 'SAVE' : 'POST'
+    }}</PrimaryButton>
   </form>
 </template>
 
