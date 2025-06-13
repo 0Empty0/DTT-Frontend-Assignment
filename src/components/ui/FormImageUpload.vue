@@ -7,11 +7,12 @@ const props = defineProps({
   modelValue: { type: [String, File], default: null },
   label: { type: String, required: true },
   validator: { type: Function, default: () => '' },
+  initialPicture: { type: String, default: null },
 })
 
 const emit = defineEmits(['update:modelValue'])
 const error = ref('')
-const picture = ref(null)
+const picture = ref(props.initialPicture)
 const fileInput = ref(null)
 
 const runValidation = () => {

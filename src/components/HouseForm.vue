@@ -120,6 +120,7 @@ const handleSubmit = () => {
       v-model="form.picture"
       label="Upload picture (PNG or JPG)*"
       :validator="requiredValidator"
+      :initial-picture="initialData.picture"
     />
     <FormInput
       ref="priceRef"
