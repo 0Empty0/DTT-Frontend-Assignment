@@ -5,9 +5,9 @@ import backgroundImage from '@/assets/images/img_background@3x.png'
 </script>
 
 <template>
-  <div>
+  <div class="layout">
     <AppHeader />
-    <main><router-view /></main>
+    <main class="main container"><router-view /></main>
     <img :src="backgroundImage" alt="background" class="background" />
   </div>
 </template>

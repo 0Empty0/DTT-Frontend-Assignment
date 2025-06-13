@@ -1,2 +1,7 @@
 @import './reset.css';
 @import './base.css';
+
+.title {
+  font-size: var(--f-h1-desktop);
+  font-weight: 700;
+}

@@ -44,23 +44,23 @@ const routes = [
     ],
   },
   {
-    path: '/house/new',
+    path: '/listing/new',
     component: FormLayout,
     children: [
       {
         path: '',
-        name: 'HouseDetail',
+        name: 'NewListing',
         component: NewListingPage,
       },
     ],
   },
   {
-    path: '/house/edit/:id',
+    path: '/listing/edit/:id',
     component: FormLayout,
     children: [
       {
         path: '',
-        name: 'HouseDetail',
+        name: 'EditListing',
         component: EditListingPage,
       },
     ],

@@ -6,9 +6,11 @@ import SearchInput from '@/components/ui/SearchInput.vue'
 import PrimaryButton from '@/components/ui/PrimaryButton.vue'
 import ToggleTabs from '@/components/ui/ToggleTabs.vue'
 import BaseIcon from '@/components/ui/BaseIcon.vue'
+import { useRouter } from 'vue-router'
 
 import emptyHouses from '@/assets/images/img_empty_houses@3x.png'
 
+const router = useRouter()
 const houseStore = useHouseStore()
 
 onMounted(() => {
@@ -26,14 +28,14 @@ function handleEdit() {
 function handleDelete() {
   // TODO: open confirm modal and call houseStore.removeHouse(house.id)
 }
-function handleCreate() {
-  // TODO: route to create page or open modal
+const handleCreate = () => {
+  router.push('/listing/new')
 }
 </script>
 
 <template>
   <div class="houses-page">
-    <h1 class="houses-title">Houses</h1>
+    <h1 class="title">Houses</h1>
     <PrimaryButton @click="handleCreate"
       ><BaseIcon name="plus_white" size="16" :class="['plus-icon']" /> CREATE NEW</PrimaryButton
     >
@@ -82,11 +84,6 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
-}
-.houses-title {
-  font-size: var(--f-h1-desktop);
-  font-weight: 700;
-  margin: 0;
 }
 .houses-controls {
   display: flex;
