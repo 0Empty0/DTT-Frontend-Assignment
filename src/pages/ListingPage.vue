@@ -5,6 +5,7 @@ import { useHouseStore } from '@/stores/houseStore'
 import HouseCard from '@/components/HouseCard.vue'
 import BaseIcon from '@/components/ui/BaseIcon.vue'
 import IconButton from '@/components/ui/IconButton.vue'
+import GoBackButton from '@/components/ui/GoBackButton.vue'
 
 const route = useRoute()
 const router = useRouter()

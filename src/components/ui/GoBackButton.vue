@@ -1,7 +1,7 @@
 <script setup>
 import BaseIcon from './BaseIcon.vue'
 
-const props = defineProps({
+defineProps({
   label: {
     type: String,
     default: 'Go Back',

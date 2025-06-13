@@ -1,6 +1,18 @@
+<script setup>
+import GoBackButton from '@/components/ui/GoBackButton.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goBack = () => {
+  router.back()
+}
+</script>
+
 <template>
   <div>
-    <h1>New Listing Page</h1>
+    <GoBackButton @goBack="goBack" label="Back to overview" />
+    <h1 class="title">Create new listing</h1>
   </div>
 </template>
 
