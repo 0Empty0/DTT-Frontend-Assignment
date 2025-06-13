@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHouseStore } from '@/stores/houseStore'
+import { useDebounce } from '@/composables/useDebounce'
 import GoBackButton from '@/components/ui/GoBackButton.vue'
 import HouseForm from '@/components/HouseForm.vue'
 
@@ -9,7 +10,7 @@ const router = useRouter()
 const houseStore = useHouseStore()
 const errors = ref({})
 
-const handleSubmit = async (formData) => {
+const validate = (formData) => {
   errors.value = {}
   const requiredMessage = 'Required field missing.'
   const newErrors = {}
@@ -35,8 +36,14 @@ const handleSubmit = async (formData) => {
     }
   }
 
-  if (Object.keys(newErrors).length > 0) {
-    errors.value = newErrors
+  errors.value = newErrors
+  return Object.keys(newErrors).length === 0
+}
+
+const debouncedValidate = useDebounce(validate, 200)
+
+const handleSubmit = async (formData) => {
+  if (!validate(formData)) {
     return
   }
 
@@ -74,7 +81,7 @@ const goBack = () => {
   <div class="new-listing-page">
     <GoBackButton @goBack="goBack" label="Back to overview" />
     <h1 class="title">Create new listing</h1>
-    <HouseForm @submit="handleSubmit" :errors="errors" />
+    <HouseForm @submit="handleSubmit" @update="debouncedValidate" :errors="errors" />
     <div v-if="errors.form" class="error-message">{{ errors.form }}</div>
   </div>
 </template>

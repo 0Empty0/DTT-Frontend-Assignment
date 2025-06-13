@@ -16,7 +16,7 @@ const isDisabled = computed(() => {
   return Object.values(props.errors).some((error) => error !== '')
 })
 
-const emit = defineEmits(['submit'])
+const emit = defineEmits(['submit', 'update'])
 
 const form = ref({
   streetName: '',
@@ -47,6 +47,14 @@ watch(
     }
   },
   { immediate: true, deep: true },
+)
+
+watch(
+  form,
+  (newForm) => {
+    emit('update', newForm)
+  },
+  { deep: true },
 )
 
 const handleSubmit = () => {
