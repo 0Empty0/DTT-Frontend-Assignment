@@ -71,7 +71,7 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
+  <form @submit.prevent="handleSubmit" class="house-form">
     <FormInput
       ref="streetNameRef"
       id="streetName"
@@ -211,5 +211,11 @@ form {
   align-self: flex-end;
   width: 150px;
   justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .house-form {
+    padding: 0 1rem;
+  }
 }
 </style>

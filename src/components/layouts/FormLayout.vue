@@ -30,4 +30,13 @@ export default {
   object-fit: cover;
   z-index: -1;
 }
+.main {
+  background: none;
+}
+
+@media (max-width: 640px) {
+  .background {
+    height: 150%;
+  }
+}
 </style>
