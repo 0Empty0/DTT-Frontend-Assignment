@@ -6,7 +6,7 @@ defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-function select(value) {
+const select = (value) => {
   emit('update:modelValue', value)
 }
 </script>

@@ -34,11 +34,11 @@ const imageUrl = computed(
 )
 
 const goToDetails = () => {
-  router.push({ name: 'Listing', params: { id: props.house.id } })
+  router.push({ name: 'House', params: { id: props.house.id } })
 }
 
 const goToEdit = () => {
-  router.push({ name: 'EditListing', params: { id: props.house.id } })
+  router.push({ name: 'EditHouse', params: { id: props.house.id } })
 }
 
 const deleteListing = () => {
@@ -64,7 +64,7 @@ const confirmDelete = async () => {
       <div class="house-header">
         <h2 class="house-title" @click="goToDetails">{{ address }}</h2>
         <div class="house-actions" v-if="house.madeByMe">
-          <IconButton icon="edit" aria-label="Edit" @click.stop="$emit('edit', house)" size="16" />
+          <IconButton icon="edit" aria-label="Edit" @click.stop="goToEdit" size="16" />
           <IconButton icon="delete" aria-label="Delete" @click.stop="deleteListing" size="16" />
         </div>
       </div>

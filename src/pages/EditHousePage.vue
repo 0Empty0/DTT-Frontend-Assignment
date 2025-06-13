@@ -65,7 +65,7 @@ const handleSubmit = async (formData) => {
     if (formData.picture && formData.picture instanceof File) {
       await houseStore.uploadImage(house.value.id, formData.picture)
     }
-    router.push({ name: 'Listing', params: { id: house.value.id } })
+    router.push({ name: 'House', params: { id: house.value.id } })
   } catch (error) {
     console.error('Failed to update listing:', error)
     formError.value = 'Failed to update listing. Please try again.'
@@ -73,7 +73,7 @@ const handleSubmit = async (formData) => {
 }
 
 const goBack = () => {
-  router.push({ name: 'Listing', params: { id: house.value.id } })
+  router.push({ name: 'House', params: { id: house.value.id } })
 }
 </script>
 
@@ -90,12 +90,6 @@ const goBack = () => {
     <div v-if="formError" class="error-message">{{ formError }}</div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'EditListingPage',
-}
-</script>
 
 <style scoped>
 .edit-listing-page {

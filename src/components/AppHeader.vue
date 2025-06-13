@@ -18,12 +18,6 @@ import logo from '@/assets/images/img_logo_dtt@3x.png'
   </header>
 </template>
 
-<script>
-export default {
-  name: 'AppHeader',
-}
-</script>
-
 <style scoped>
 .header {
   padding: 1rem;

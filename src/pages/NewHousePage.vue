@@ -30,7 +30,7 @@ const handleSubmit = async (formData) => {
     if (formData.picture && formData.picture instanceof File) {
       await houseStore.uploadImage(house.id, formData.picture)
     }
-    router.push(`/listing/${house.id}`)
+    router.push({ name: 'House', params: { id: house.id } })
   } catch (error) {
     console.error('Failed to create new listing:', error)
     formError.value = 'Failed to create new listing. Please try again.'
@@ -50,12 +50,6 @@ const goBack = () => {
     <div v-if="formError" class="error-message">{{ formError }}</div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'NewListingPage',
-}
-</script>
 
 <style scoped>
 .new-listing-page {

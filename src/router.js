@@ -5,9 +5,9 @@ import FormLayout from '@/components/layouts/FormLayout.vue'
 
 import HomePage from '@/pages/HomePage.vue'
 import AboutPage from '@/pages/AboutPage.vue'
-import ListingPage from '@/pages/ListingPage.vue'
-import NewListingPage from '@/pages/NewListingPage.vue'
-import EditListingPage from '@/pages/EditListingPage.vue'
+import HousePage from '@/pages/HousePage.vue'
+import NewHousePage from '@/pages/NewHousePage.vue'
+import EditHousePage from '@/pages/EditHousePage.vue'
 
 const routes = [
   {
@@ -33,13 +33,13 @@ const routes = [
     ],
   },
   {
-    path: '/listing/:id',
+    path: '/house/:id',
     component: DefaultLayout,
     children: [
       {
         path: '',
-        name: 'Listing',
-        component: ListingPage,
+        name: 'House',
+        component: HousePage,
       },
     ],
   },
@@ -49,19 +49,19 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'NewListing',
-        component: NewListingPage,
+        name: 'NewHouse',
+        component: NewHousePage,
       },
     ],
   },
   {
-    path: '/listing/edit/:id',
+    path: '/house/edit/:id',
     component: FormLayout,
     children: [
       {
         path: '',
-        name: 'EditListing',
-        component: EditListingPage,
+        name: 'EditHouse',
+        component: EditHousePage,
       },
     ],
   },
