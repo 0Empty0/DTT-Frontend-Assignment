@@ -1,5 +1,6 @@
 <template>
   <div class="about-page">
+    <h1 class="title">About</h1>
     <div class="about-container">
       <h1>About DTT Real Estate</h1>
       <p>
@@ -41,29 +42,21 @@
   padding: 0 20px;
 }
 
-h1,
-h2 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: bold;
-}
-
 h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: var(--f-h1-desktop);
+  margin-bottom: 1rem;
 }
 
 h2 {
-  font-size: 20px;
-  margin-top: 40px;
-  margin-bottom: 20px;
+  font-size: var(--f-h2-desktop);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 p {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  color: #333;
+  font-size: var(--font-secondary);
+  margin-bottom: 1rem;
+  color: var(--text-color-secondary);
 }
 
 .dtt-credit {
@@ -74,25 +67,53 @@ p {
 .dtt-logo {
   width: 150px;
   height: auto;
-  margin-right: 20px;
+  margin-right: 1rem;
 }
 
 .dtt-info {
+  font-size: var(--font-secondary);
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
 }
 
 .dtt-info span {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .dtt-info a {
-  color: #007bff;
+  color: var(--text-color-hyperlink);
   text-decoration: none;
 }
 
 .dtt-info a:hover {
   text-decoration: underline;
+}
+
+@media (min-width: 641px) {
+  .title {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .title {
+    display: block;
+    text-align: center;
+    font-size: var(--f-h1-desktop);
+  }
+  h1 {
+    font-size: var(--f-h1-mobile);
+  }
+  h2 {
+    margin-top: 2rem;
+    font-size: var(--f-h2-mobile);
+  }
+  p {
+    font-size: var(--f-p-mobile);
+  }
 }
 </style>
