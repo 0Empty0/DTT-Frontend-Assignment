@@ -85,4 +85,13 @@ defineEmits(['close', 'confirm'])
   width: 100%;
   justify-content: center;
 }
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 90vw;
+  }
+  .modal-content {
+    width: 75%;
+  }
+}
 </style>
