@@ -1,9 +1,10 @@
 <script setup>
+import HouseForm from '@/components/HouseForm.vue'
+import GoBackButton from '@/components/ui/GoBackButton.vue'
+import IconButton from '@/components/ui/IconButton.vue'
+import { useHouseStore } from '@/stores/houseStore'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHouseStore } from '@/stores/houseStore'
-import GoBackButton from '@/components/ui/GoBackButton.vue'
-import HouseForm from '@/components/HouseForm.vue'
 
 const router = useRouter()
 const houseStore = useHouseStore()
@@ -44,8 +45,11 @@ const goBack = () => {
 
 <template>
   <div class="new-listing-page">
-    <GoBackButton @goBack="goBack" label="Back to overview" />
-    <h1 class="title">Create new listing</h1>
+    <GoBackButton @goBack="goBack" label="Back to overview" class="go-back-desktop" />
+    <div class="title-wrapper">
+      <IconButton icon="back_grey" class="back-button" @click="goBack" />
+      <h1 class="title">Create new listing</h1>
+    </div>
     <HouseForm @submit="handleSubmit" />
     <div v-if="formError" class="error-message">{{ formError }}</div>
   </div>
@@ -62,5 +66,38 @@ const goBack = () => {
   color: red;
   margin-top: 1rem;
   text-align: center;
+}
+
+@media (min-width: 641px) {
+  .go-back-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .new-listing-page {
+    width: 100%;
+    max-width: unset;
+  }
+  .go-back-desktop {
+    display: none;
+  }
+  .title-wrapper {
+    display: grid;
+    grid-template-columns: 32px 1fr 32px;
+    grid-template-rows: 1fr;
+    grid-template-areas: 'button title .';
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    padding-bottom: 1rem;
+  }
+  .go-back-mobile {
+    grid-area: button;
+  }
+  .title {
+    grid-area: title;
+    text-align: center;
+  }
 }
 </style>

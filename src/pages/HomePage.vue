@@ -136,7 +136,6 @@ const handleCreate = () => {
     display: grid;
     grid-template-columns: 32px 1fr 32px;
     grid-template-rows: 1fr;
-    gap: 0px 0px;
     grid-template-areas: '. title button';
     justify-content: center;
     align-items: center;
