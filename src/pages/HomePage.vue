@@ -22,12 +22,6 @@ const sortOptions = [
   { label: 'Size', value: 'size' },
 ]
 
-function handleEdit() {
-  // TODO: route to edit page or open modal
-}
-function handleDelete() {
-  // TODO: open confirm modal and call houseStore.removeHouse(house.id)
-}
 const handleCreate = () => {
   router.push('/listing/new')
 }
@@ -54,13 +48,7 @@ const handleCreate = () => {
     >
       {{ houseStore.filteredSortedList.length }} results found
     </div>
-    <HouseCard
-      v-for="house in houseStore.filteredSortedList"
-      :key="house.id"
-      :house="house"
-      @edit="handleEdit"
-      @delete="handleDelete"
-    />
+    <HouseCard v-for="house in houseStore.filteredSortedList" :key="house.id" :house="house" />
     <div v-if="!houseStore.filteredSortedList.length" class="houses-empty">
       <img :src="emptyHouses" alt="No results found" />
       <p class="message">No results found.</p>

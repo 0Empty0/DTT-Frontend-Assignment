@@ -27,7 +27,7 @@ const handleSubmit = async (formData) => {
 
   try {
     const house = await houseStore.addHouse(payload)
-    if (formData.picture) {
+    if (formData.picture && formData.picture instanceof File) {
       await houseStore.uploadImage(house.id, formData.picture)
     }
     router.push(`/listing/${house.id}`)
