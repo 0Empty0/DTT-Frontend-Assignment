@@ -23,7 +23,7 @@ const sortOptions = [
 ]
 
 const handleCreate = () => {
-  router.push('/listing/new')
+  router.push({ name: 'NewHouse' })
 }
 </script>
 
@@ -56,12 +56,6 @@ const handleCreate = () => {
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'HomePage',
-}
-</script>
 
 <style scoped>
 .plus-icon {
