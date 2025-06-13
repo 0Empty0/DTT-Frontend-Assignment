@@ -63,7 +63,7 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
+  <form @submit.prevent="handleSubmit" type="multipart/form-data">
     <FormInput
       id="streetName"
       v-model="form.streetName"

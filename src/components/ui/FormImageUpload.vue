@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
+import IconButton from './IconButton.vue'
 
 const props = defineProps({
   modelValue: { type: [String, File], default: null },
@@ -36,6 +37,12 @@ const handleFileUpload = (event) => {
 const triggerFileInput = () => {
   fileInput.value.click()
 }
+
+const removeImage = (e) => {
+  e.stopPropagation()
+  emit('update:modelValue', null)
+  picture.value = null
+}
 </script>
 
 <template>
@@ -49,8 +56,11 @@ const triggerFileInput = () => {
         accept="image/png, image/jpeg"
         class="file-input"
       />
-      <div v-if="!picture" class="upload-placeholder">
-        <span class="plus-icon">+</span>
+      <div v-if="!picture" class="upload-image">
+        <IconButton icon="plus_grey" size="24" alt="Upload image" />
+      </div>
+      <div v-else class="remove-image" @click="removeImage">
+        <IconButton icon="clear_white" size="28" alt="Upload image" />
       </div>
       <img v-if="picture" :src="picture" class="preview-image" />
     </div>
@@ -80,22 +90,24 @@ label {
   align-items: center;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
 }
 
 .file-input {
   display: none;
 }
 
-.upload-placeholder .plus-icon {
-  font-size: 48px;
-  color: var(--color-tertiary-alt);
-}
-
 .preview-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .is-invalid {

@@ -123,12 +123,12 @@ export const useHouseStore = defineStore('houses', () => {
   }
 
   /**
-   * Replaces the image of a house.
+   * Uploads the image of a house.
    * @param {number | string} id
    * @param {File} file
    * @returns {Promise<import('@/services/houseApi').House>}
    */
-  async function replaceImage(id, file) {
+  async function uploadImage(id, file) {
     const updated = await uploadHouseImage(id, file)
     const idx = list.value.findIndex((h) => h.id === Number(id))
     if (idx !== -1) list.value[idx] = updated
@@ -152,6 +152,6 @@ export const useHouseStore = defineStore('houses', () => {
     addHouse,
     editHouse,
     removeHouse,
-    replaceImage,
+    uploadImage,
   }
 })

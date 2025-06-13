@@ -43,9 +43,9 @@ const validate = (formData) => {
 const debouncedValidate = useDebounce(validate, 200)
 
 const handleSubmit = async (formData) => {
-  if (!validate(formData)) {
-    return
-  }
+  // if (!validate(formData)) {
+  //   return
+  // }
 
   const payload = {
     streetName: formData.streetName,
@@ -60,12 +60,12 @@ const handleSubmit = async (formData) => {
     bathrooms: Number(formData.bathrooms),
     constructionYear: Number(formData.constructionDate),
     description: formData.description,
-    image: formData.picture,
   }
 
   try {
-    await houseStore.addHouse(payload)
-    router.push('/')
+    const house = await houseStore.addHouse(payload)
+    await houseStore.uploadImage(house.id, formData.picture)
+    router.push(`/listing/${house.id}`)
   } catch (error) {
     console.error('Failed to create new listing:', error)
     errors.value = { form: 'Failed to create new listing. Please try again.' }
