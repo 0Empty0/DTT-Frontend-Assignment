@@ -74,10 +74,7 @@ const deleteListing = async () => {
 <template>
   <div class="listing-page" v-if="house">
     <div class="main-content">
-      <div class="back-link" @click="goBack">
-        <BaseIcon name="back_grey" :size="20" />
-        <span>Back to overview</span>
-      </div>
+      <GoBackButton @goBack="goBack" label="Back to overview" />
 
       <article class="house-details">
         <img :src="houseImageUrl" alt="House image" class="house-image" />
@@ -178,14 +175,6 @@ const deleteListing = async () => {
   gap: 1rem;
   container-type: inline-size;
   container-name: house-card-container;
-}
-.back-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  font-weight: 600;
 }
 .house-image {
   width: 100%;
