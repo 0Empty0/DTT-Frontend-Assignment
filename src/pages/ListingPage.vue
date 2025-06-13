@@ -22,7 +22,9 @@ const houseImageUrl = computed(() => {
 
 const recommendedList = computed(() => {
   if (!house.value) return []
-  return houseStore.filteredSortedList.filter((item) => item.id !== house.value.id).slice(0, 3)
+  return houseStore.filteredSortedList
+    .filter((item) => item && item.id !== house.value.id)
+    .slice(0, 3)
 })
 
 const fetchHouseDetails = async (id) => {
