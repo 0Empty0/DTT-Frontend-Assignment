@@ -51,7 +51,12 @@ const handleCreate = () => {
     >
       {{ houseStore.filteredSortedList.length }} results found
     </p>
-    <HouseCard v-for="house in houseStore.filteredSortedList" :key="house.id" :house="house" />
+    <HouseCard
+      v-for="house in houseStore.filteredSortedList"
+      :key="house.id"
+      :house="house"
+      class="house-card-item"
+    />
     <div v-if="!houseStore.filteredSortedList.length" class="houses-empty">
       <img :src="emptyHouses" alt="No results found" />
       <p class="message">No results found.</p>
@@ -135,6 +140,8 @@ const handleCreate = () => {
     grid-template-areas: '. title button';
     justify-content: center;
     align-items: center;
+    padding: 1rem;
+    padding-bottom: 0;
   }
   .title {
     text-align: center;
@@ -148,9 +155,13 @@ const handleCreate = () => {
   }
   .houses-controls {
     margin-bottom: 1rem;
+    padding: 0 1rem;
   }
   .houses-found {
     margin-bottom: 1rem;
+  }
+  .house-card-item {
+    margin: 0 1rem;
   }
 }
 </style>
