@@ -7,57 +7,53 @@ import HouseForm from '@/components/HouseForm.vue'
 
 const router = useRouter()
 const houseStore = useHouseStore()
-const errorMessage = ref('')
+const errors = ref({})
 
 const handleSubmit = async (formData) => {
-  const {
-    streetName,
-    houseNumber,
-    postalCode,
-    city,
-    price,
-    size,
-    garage,
-    bedrooms,
-    bathrooms,
-    constructionDate,
-    description,
-    picture,
-  } = formData
+  errors.value = {}
+  const requiredMessage = 'Required field missing.'
+  const newErrors = {}
 
-  if (
-    !streetName ||
-    !houseNumber ||
-    !postalCode ||
-    !city ||
-    !price ||
-    !size ||
-    !garage ||
-    !bedrooms ||
-    !bathrooms ||
-    !constructionDate ||
-    !description ||
-    !picture
-  ) {
-    errorMessage.value = 'All fields are required, except for the addition.'
+  const requiredFields = [
+    'streetName',
+    'houseNumber',
+    'postalCode',
+    'city',
+    'price',
+    'size',
+    'garage',
+    'bedrooms',
+    'bathrooms',
+    'constructionDate',
+    'description',
+    'picture',
+  ]
+
+  for (const field of requiredFields) {
+    if (!formData[field]) {
+      newErrors[field] = requiredMessage
+    }
+  }
+
+  if (Object.keys(newErrors).length > 0) {
+    errors.value = newErrors
     return
   }
-  errorMessage.value = ''
 
   const payload = {
-    streetName,
-    houseNumber,
+    streetName: formData.streetName,
+    houseNumber: formData.houseNumber,
     houseNumberAddition: formData.addition,
-    zip: postalCode,
-    city,
-    price: Number(price),
-    size: Number(size),
-    hasGarage: garage === 'yes',
-    bedrooms: Number(bedrooms),
-    bathrooms: Number(bathrooms),
-    constructionYear: Number(constructionDate),
-    description,
-    image: picture,
+    zip: formData.postalCode,
+    city: formData.city,
+    price: Number(formData.price),
+    size: Number(formData.size),
+    hasGarage: formData.garage === 'yes',
+    bedrooms: Number(formData.bedrooms),
+    bathrooms: Number(formData.bathrooms),
+    constructionYear: Number(formData.constructionDate),
+    description: formData.description,
+    image: formData.picture,
   }
 
   try {
@@ -65,7 +61,7 @@ const handleSubmit = async (formData) => {
     router.push('/')
   } catch (error) {
     console.error('Failed to create new listing:', error)
-    errorMessage.value = 'Failed to create new listing. Please try again.'
+    errors.value = { form: 'Failed to create new listing. Please try again.' }
   }
 }
 
@@ -78,8 +74,8 @@ const goBack = () => {
   <div class="new-listing-page">
     <GoBackButton @goBack="goBack" label="Back to overview" />
     <h1 class="title">Create new listing</h1>
-    <HouseForm @submit="handleSubmit" />
-    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <HouseForm @submit="handleSubmit" :errors="errors" />
+    <div v-if="errors.form" class="error-message">{{ errors.form }}</div>
   </div>
 </template>
 
@@ -99,5 +95,6 @@ export default {
 .error-message {
   color: red;
   margin-top: 1rem;
+  text-align: center;
 }
 </style>

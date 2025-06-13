@@ -4,6 +4,7 @@ import { ref, watch } from 'vue'
 const props = defineProps({
   modelValue: { type: [String, File], default: null },
   label: { type: String, required: true },
+  error: { type: String, default: '' },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -40,7 +41,7 @@ const triggerFileInput = () => {
 <template>
   <div class="form-group">
     <label>{{ label }}</label>
-    <div class="file-upload-container" @click="triggerFileInput">
+    <div class="file-upload-container" @click="triggerFileInput" :class="{ 'is-invalid': error }">
       <input
         type="file"
         ref="fileInput"
@@ -53,6 +54,7 @@ const triggerFileInput = () => {
       </div>
       <img v-if="picture" :src="picture" class="preview-image" />
     </div>
+    <span v-if="error" class="error-message">{{ error }}</span>
   </div>
 </template>
 
@@ -94,5 +96,15 @@ label {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.is-invalid {
+  border: 1px solid var(--color-primary);
+}
+
+.error-message {
+  color: var(--color-primary);
+  font-size: var(--f-error-mobile);
+  margin-top: 0.25rem;
 }
 </style>

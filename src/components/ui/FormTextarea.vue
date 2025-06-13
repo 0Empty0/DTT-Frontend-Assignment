@@ -4,6 +4,7 @@ defineProps({
   label: { type: String, required: true },
   placeholder: { type: String, default: '' },
   id: { type: String, required: true },
+  error: { type: String, default: '' },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -21,7 +22,9 @@ const updateValue = (event) => {
       :value="modelValue"
       @input="updateValue"
       :placeholder="placeholder"
+      :class="{ 'is-invalid': error }"
     ></textarea>
+    <span v-if="error" class="error-message">{{ error }}</span>
   </div>
 </template>
 
@@ -50,5 +53,19 @@ textarea {
 
 textarea::placeholder {
   color: var(--color-tertiary-alt);
+}
+
+.is-invalid {
+  border: 1px solid var(--color-primary);
+}
+
+.is-invalid::placeholder {
+  color: var(--color-primary);
+}
+
+.error-message {
+  color: var(--color-primary);
+  font-size: var(--f-error-mobile);
+  margin-top: 0.25rem;
 }
 </style>

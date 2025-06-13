@@ -9,6 +9,7 @@ import PrimaryButton from '@/components/ui/PrimaryButton.vue'
 const props = defineProps({
   initialData: { type: Object, default: () => ({}) },
   isEdit: { type: Boolean, default: false },
+  errors: { type: Object, default: () => ({}) },
 })
 
 const emit = defineEmits(['submit'])
@@ -56,6 +57,7 @@ const handleSubmit = () => {
       v-model="form.streetName"
       label="Street name*"
       placeholder="Enter the street name"
+      :error="errors.streetName"
     />
 
     <div class="form-row">
@@ -64,6 +66,7 @@ const handleSubmit = () => {
         v-model="form.houseNumber"
         label="House number*"
         placeholder="Enter house number"
+        :error="errors.houseNumber"
       />
       <FormInput
         id="addition"
@@ -78,14 +81,44 @@ const handleSubmit = () => {
       v-model="form.postalCode"
       label="Postal code*"
       placeholder="e.g. 1000 AA"
+      :error="errors.postalCode"
     />
-    <FormInput id="city" v-model="form.city" label="City*" placeholder="e.g. Utrecht" />
-    <FormImageUpload id="picture" v-model="form.picture" label="Upload picture (PNG or JPG)*" />
-    <FormInput id="price" v-model="form.price" label="Price*" placeholder="e.g. €150.000" />
+    <FormInput
+      id="city"
+      v-model="form.city"
+      label="City*"
+      placeholder="e.g. Utrecht"
+      :error="errors.city"
+    />
+    <FormImageUpload
+      id="picture"
+      v-model="form.picture"
+      label="Upload picture (PNG or JPG)*"
+      :error="errors.picture"
+    />
+    <FormInput
+      id="price"
+      v-model="form.price"
+      label="Price*"
+      placeholder="e.g. €150.000"
+      :error="errors.price"
+    />
 
     <div class="form-row">
-      <FormInput id="size" v-model="form.size" label="Size*" placeholder="e.g. 60m2" />
-      <FormSelect id="garage" v-model="form.garage" label="Garage*" :options="garageOptions" />
+      <FormInput
+        id="size"
+        v-model="form.size"
+        label="Size*"
+        placeholder="e.g. 60m2"
+        :error="errors.size"
+      />
+      <FormSelect
+        id="garage"
+        v-model="form.garage"
+        label="Garage*"
+        :options="garageOptions"
+        :error="errors.garage"
+      />
     </div>
 
     <div class="form-row">
@@ -94,12 +127,14 @@ const handleSubmit = () => {
         v-model="form.bedrooms"
         label="Bedrooms*"
         placeholder="Enter amount"
+        :error="errors.bedrooms"
       />
       <FormInput
         id="bathrooms"
         v-model="form.bathrooms"
         label="Bathrooms*"
         placeholder="Enter amount"
+        :error="errors.bathrooms"
       />
     </div>
 
@@ -108,12 +143,14 @@ const handleSubmit = () => {
       v-model="form.constructionDate"
       label="Construction date*"
       placeholder="e.g. 1990"
+      :error="errors.constructionDate"
     />
     <FormTextarea
       id="description"
       v-model="form.description"
       label="Description*"
       placeholder="Enter description"
+      :error="errors.description"
     />
 
     <PrimaryButton type="submit">{{ isEdit ? 'SAVE' : 'POST' }}</PrimaryButton>
