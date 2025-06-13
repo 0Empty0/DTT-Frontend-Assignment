@@ -49,4 +49,11 @@ const select = (value) => {
   background: var(--color-primary);
   color: #fff;
 }
+
+@media (max-width: 640px) {
+  .tab {
+    flex: 1;
+    padding-block: 0.75rem;
+  }
+}
 </style>

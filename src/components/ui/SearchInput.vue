@@ -85,4 +85,13 @@ function clearInput() {
 .clear-btn:focus {
   outline: 2px solid var(--color-secondary);
 }
+
+@media (max-width: 640px) {
+  .search {
+    width: 100%;
+  }
+  .search-input {
+    padding: 0.5rem 1.25rem 0.5rem 2.5rem;
+  }
+}
 </style>

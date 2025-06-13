@@ -1,11 +1,11 @@
 <script setup>
-import { onMounted } from 'vue'
-import { useHouseStore } from '@/stores/houseStore'
 import HouseCard from '@/components/HouseCard.vue'
-import SearchInput from '@/components/ui/SearchInput.vue'
-import PrimaryButton from '@/components/ui/PrimaryButton.vue'
-import ToggleTabs from '@/components/ui/ToggleTabs.vue'
 import BaseIcon from '@/components/ui/BaseIcon.vue'
+import PrimaryButton from '@/components/ui/PrimaryButton.vue'
+import SearchInput from '@/components/ui/SearchInput.vue'
+import ToggleTabs from '@/components/ui/ToggleTabs.vue'
+import { useHouseStore } from '@/stores/houseStore'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 import emptyHouses from '@/assets/images/img_empty_houses@3x.png'
@@ -33,6 +33,9 @@ const handleCreate = () => {
     <PrimaryButton @click="handleCreate"
       ><BaseIcon name="plus_white" size="16" :class="['plus-icon']" /> CREATE NEW</PrimaryButton
     >
+    <button class="mobile-btn" @click="handleCreate">
+      <BaseIcon name="plus_grey" size="24" />
+    </button>
   </div>
   <div class="houses-controls">
     <SearchInput v-model="houseStore.searchTerm" placeholder="Search for a house" />
@@ -42,12 +45,12 @@ const handleCreate = () => {
   <div v-else-if="houseStore.status === 'error'" class="houses-error">{{ houseStore.error }}</div>
 
   <div v-else>
-    <div
+    <p
       v-if="houseStore.searchTerm !== '' && houseStore.filteredSortedList.length !== 0"
       class="houses-found"
     >
       {{ houseStore.filteredSortedList.length }} results found
-    </div>
+    </p>
     <HouseCard v-for="house in houseStore.filteredSortedList" :key="house.id" :house="house" />
     <div v-if="!houseStore.filteredSortedList.length" class="houses-empty">
       <img :src="emptyHouses" alt="No results found" />
@@ -103,7 +106,18 @@ const handleCreate = () => {
   font-weight: 700;
   margin-bottom: 2rem;
 }
-@media (max-width: 600px) {
+.mobile-btn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+@media (min-width: 641px) {
+  .mobile-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
   .houses-header,
   .houses-controls {
     flex-direction: column;
@@ -112,6 +126,31 @@ const handleCreate = () => {
   }
   .houses-title {
     font-size: var(--f-h1-mobile);
+  }
+  .houses-page {
+    display: grid;
+    grid-template-columns: 32px 1fr 32px;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas: '. title button';
+    justify-content: center;
+    align-items: center;
+  }
+  .title {
+    text-align: center;
+    grid-area: title;
+  }
+  .mobile-btn {
+    grid-area: button;
+  }
+  .primary-btn {
+    display: none;
+  }
+  .houses-controls {
+    margin-bottom: 1rem;
+  }
+  .houses-found {
+    margin-bottom: 1rem;
   }
 }
 </style>
