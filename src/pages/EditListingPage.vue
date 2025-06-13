@@ -45,7 +45,7 @@ const handleSubmit = async (formData) => {
     if (formData.picture) {
       await houseStore.uploadImage(house.id, formData.picture)
     }
-    router.push(`/listing/${house.id}`)
+    router.push({ name: 'Listing', params: { id: house.id } })
   } catch (error) {
     console.error('Failed to create new listing:', error)
     formError.value = 'Failed to create new listing. Please try again.'
@@ -53,7 +53,7 @@ const handleSubmit = async (formData) => {
 }
 
 const goBack = () => {
-  router.push(`/listing/${house.value.id}`)
+  router.push({ name: 'Listing', params: { id: house.value.id } })
 }
 </script>
 

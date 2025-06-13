@@ -60,7 +60,7 @@ const goBack = () => {
 }
 
 const goToEdit = () => {
-  router.push(`/house/edit/${house.value.id}`)
+  router.push({ name: 'EditListing', params: { id: house.value.id } })
 }
 
 const deleteListing = () => {

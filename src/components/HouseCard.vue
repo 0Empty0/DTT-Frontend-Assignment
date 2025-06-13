@@ -37,6 +37,10 @@ const goToDetails = () => {
   router.push({ name: 'Listing', params: { id: props.house.id } })
 }
 
+const goToEdit = () => {
+  router.push({ name: 'EditListing', params: { id: props.house.id } })
+}
+
 const deleteListing = () => {
   showDeleteModal.value = true
 }
