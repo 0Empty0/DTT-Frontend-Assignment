@@ -1,6 +1,14 @@
-# DTT-Frontend-Assignment
+# About Developer
 
-This template should help get you started developing with Vue 3 in Vite.
+I'm Viktor Harhat. Second-year student at NHL Stenden University of Applied Sciences. This project was developed as part of the DTT Frontend Assignment.
+
+## Documentation
+
+In the `docs` folder you can find:
+
+- Time sheet tracking development hours
+- Style guide for the application
+- Original assignment description and requirements
 
 ## Recommended IDE Setup
 
@@ -11,6 +19,9 @@ This template should help get you started developing with Vue 3 in Vite.
 See [Vite Configuration Reference](https://vite.dev/config/).
 
 ## Project Setup
+
+1. Copy `.env.example` to `.env` and adjust variables if needed
+2. Install dependencies:
 
 ```sh
 npm install
