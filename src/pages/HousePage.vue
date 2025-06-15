@@ -24,8 +24,36 @@ const houseImageUrl = computed(() => {
 
 const recommendedList = computed(() => {
   if (!house.value) return []
-  return houseStore.filteredSortedList
-    .filter((item) => item && item.id !== house.value.id)
+
+  const currentHouse = house.value
+  const otherHouses = houseStore.filteredSortedList.filter(
+    (item) => item && item.id !== currentHouse.id
+  )
+
+  const calculateSimilarityScore = (houseA, houseB) => {
+    let score = 0
+
+    const priceSimilarity =
+      1 - Math.abs(houseA.price - houseB.price) / Math.max(houseA.price, houseB.price)
+    score += priceSimilarity * 0.5
+
+    const sizeSimilarity =
+      1 - Math.abs(houseA.size - houseB.size) / Math.max(houseA.size, houseB.size)
+    score += sizeSimilarity * 0.3
+
+    if (houseA.location.city === houseB.location.city) {
+      score += 0.2
+    }
+
+    return score
+  }
+
+  return otherHouses
+    .map((otherHouse) => ({
+      ...otherHouse,
+      score: calculateSimilarityScore(currentHouse, otherHouse)
+    }))
+    .sort((a, b) => b.score - a.score)
     .slice(0, 3)
 })
 
