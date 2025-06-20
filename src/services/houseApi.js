@@ -50,8 +50,8 @@ async function request(endpoint, { method = 'GET', body } = {}) {
     try {
       const { error } = await resp.clone().json()
       if (error) message = error
-    } catch (e) {
-      console.error('Failed to parse error response: ', e)
+    } catch {
+      // Failed to parse error response
     }
     throw new Error(message)
   }

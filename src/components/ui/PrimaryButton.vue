@@ -35,8 +35,8 @@ defineProps({
   background-color: #d54331;
 }
 
-.primary-btn:disabled {
+.primary-btn:disabled,
+.primary-btn.disabled {
   opacity: 0.6;
-  cursor: not-allowed;
 }
 </style>

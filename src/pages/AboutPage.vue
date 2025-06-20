@@ -29,11 +29,9 @@
 
 <style scoped>
 .about-page {
-  display: flex;
-  justify-content: center;
-  background-color: #f6f6f6;
-  padding: 40px 0;
-  min-height: calc(100vh - 100px);
+  max-width: unset;
+  padding: 1rem;
+  flex-direction: column;
 }
 
 .about-container {
@@ -42,19 +40,25 @@
   padding: 0 20px;
 }
 
-h1 {
+.title {
+  display: block;
+  text-align: center;
   font-size: var(--f-h1-desktop);
+}
+
+h1 {
+  font-size: var(--f-h1-mobile);
   margin-bottom: 1rem;
 }
 
 h2 {
-  font-size: var(--f-h2-desktop);
-  margin-top: 1rem;
+  font-size: var(--f-h2-mobile);
+  margin-top: 2rem;
   margin-bottom: 1rem;
 }
 
 p {
-  font-size: var(--font-secondary);
+  font-size: var(--f-p-mobile);
   margin-bottom: 1rem;
   color: var(--text-color-secondary);
 }
@@ -90,30 +94,22 @@ p {
 }
 
 @media (min-width: 641px) {
+  .about-page {
+    max-width: 600px;
+    padding: 0;
+  }
   .title {
     display: none;
   }
-}
-
-@media (max-width: 640px) {
-  .about-page {
-    flex-direction: column;
-    padding: 1rem;
-  }
-  .title {
-    display: block;
-    text-align: center;
+  h1 {
     font-size: var(--f-h1-desktop);
   }
-  h1 {
-    font-size: var(--f-h1-mobile);
-  }
   h2 {
-    margin-top: 2rem;
-    font-size: var(--f-h2-mobile);
+    font-size: var(--f-h2-desktop);
+    margin-top: 1rem;
   }
   p {
-    font-size: var(--f-p-mobile);
+    font-size: var(--font-secondary);
   }
 }
 </style>

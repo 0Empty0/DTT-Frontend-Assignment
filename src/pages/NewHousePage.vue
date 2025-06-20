@@ -32,8 +32,7 @@ const handleSubmit = async (formData) => {
       await houseStore.uploadImage(house.id, formData.picture)
     }
     router.push({ name: 'House', params: { id: house.id } })
-  } catch (error) {
-    console.error('Failed to create new listing:', error)
+  } catch {
     formError.value = 'Failed to create new listing. Please try again.'
   }
 }
@@ -47,7 +46,7 @@ const goBack = () => {
   <div class="new-listing-page">
     <GoBackButton @goBack="goBack" label="Back to overview" class="go-back-desktop" />
     <div class="title-wrapper">
-      <IconButton icon="back_grey" class="back-button" @click="goBack" />
+      <IconButton icon="back_grey" class="back-button go-back-mobile" @click="goBack" />
       <h1 class="title">Create new listing</h1>
     </div>
     <HouseForm @submit="handleSubmit" />
@@ -57,7 +56,9 @@ const goBack = () => {
 
 <style scoped>
 .new-listing-page {
-  max-width: 500px;
+  width: 100%;
+  max-width: unset;
+  padding-bottom: 24px;
 }
 .title {
   margin-block: 1rem;
@@ -67,37 +68,45 @@ const goBack = () => {
   margin-top: 1rem;
   text-align: center;
 }
-
-@media (min-width: 641px) {
-  .go-back-mobile {
-    display: none;
-  }
+.go-back-desktop {
+  display: none;
+}
+.title-wrapper {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'button title .';
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  padding-bottom: 1rem;
+}
+.go-back-mobile {
+  grid-area: button;
+}
+.title {
+  grid-area: title;
+  text-align: center;
 }
 
-@media (max-width: 640px) {
+@media (min-width: 641px) {
   .new-listing-page {
-    width: 100%;
-    max-width: unset;
-  }
-  .go-back-desktop {
-    display: none;
-  }
-  .title-wrapper {
-    display: grid;
-    grid-template-columns: 32px 1fr 32px;
-    grid-template-rows: 1fr;
-    grid-template-areas: 'button title .';
-    justify-content: center;
-    align-items: center;
-    padding: 0 1rem;
-    padding-bottom: 1rem;
+    max-width: 500px;
+    width: auto;
   }
   .go-back-mobile {
-    grid-area: button;
+    display: none;
+  }
+  .go-back-desktop {
+    display: block;
+  }
+  .title-wrapper {
+    display: block;
+    padding: 0;
   }
   .title {
-    grid-area: title;
-    text-align: center;
+    text-align: left;
+    grid-area: unset;
   }
 }
 </style>

@@ -55,13 +55,13 @@ defineEmits(['close', 'confirm'])
   background: white;
   border-radius: 16px;
   padding: 3rem 2rem;
-  width: 50vw;
+  width: 90vw;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .modal-content {
-  width: 65%;
+  width: 75%;
   margin: 0 auto;
 }
 
@@ -86,12 +86,12 @@ defineEmits(['close', 'confirm'])
   justify-content: center;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .modal-container {
-    width: 90vw;
+    width: 50vw;
   }
   .modal-content {
-    width: 75%;
+    width: 65%;
   }
 }
 </style>

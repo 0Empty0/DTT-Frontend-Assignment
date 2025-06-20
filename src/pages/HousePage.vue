@@ -27,7 +27,7 @@ const recommendedList = computed(() => {
 
   const currentHouse = house.value
   const otherHouses = houseStore.filteredSortedList.filter(
-    (item) => item && item.id !== currentHouse.id
+    (item) => item && item.id !== currentHouse.id,
   )
 
   const calculateSimilarityScore = (houseA, houseB) => {
@@ -51,34 +51,33 @@ const recommendedList = computed(() => {
   return otherHouses
     .map((otherHouse) => ({
       ...otherHouse,
-      score: calculateSimilarityScore(currentHouse, otherHouse)
+      score: calculateSimilarityScore(currentHouse, otherHouse),
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
 })
 
-const fetchHouseDetails = async (id) => {
+const fetchHouseDetails = async () => {
   try {
     house.value = await houseStore.fetchHouseById(route.params.id)
 
     if (!houseStore.list.length) {
       await houseStore.fetchHouses()
     }
-  } catch (error) {
-    console.error(`Failed to fetch house details for ID ${id}:`, error)
+  } catch {
     router.push({ name: 'Home' })
   }
 }
 
 onMounted(() => {
-  fetchHouseDetails(route.params.id)
+  fetchHouseDetails()
 })
 
 watch(
   () => route.params.id,
   (newId) => {
     if (newId) {
-      fetchHouseDetails(newId)
+      fetchHouseDetails()
     }
   },
 )
@@ -99,8 +98,7 @@ const confirmDelete = async () => {
   try {
     await houseStore.removeHouse(house.value.id)
     router.push({ name: 'Home' })
-  } catch (error) {
-    console.error('Failed to delete listing:', error)
+  } catch {
     alert('Failed to delete listing.')
   } finally {
     showDeleteModal.value = false
@@ -193,9 +191,12 @@ const confirmDelete = async () => {
 <style scoped>
 .listing-page {
   background-color: var(--color-background-2);
+  flex-direction: column;
+  padding: 0;
 }
 .main-content {
   flex: 2;
+  padding: 0;
 }
 .house-details {
   background-color: var(--color-background-2);
@@ -220,12 +221,20 @@ const confirmDelete = async () => {
   padding: 0 1rem;
 }
 .house-details-content {
-  padding: 1.25rem;
+  padding: 1.5rem;
+  margin-top: -5rem;
+  background: var(--color-background-2);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 .sidebar {
   flex: 1;
   min-width: 300px;
-  margin-top: 2.5rem;
+  margin-top: 0;
+  padding: 1rem;
 }
 .recommended-list {
   display: flex;
@@ -236,7 +245,7 @@ const confirmDelete = async () => {
 }
 .house-image {
   width: 100%;
-  height: auto;
+  height: 55vh;
   object-fit: cover;
 }
 .heading {
@@ -262,7 +271,7 @@ const confirmDelete = async () => {
   align-items: center;
   gap: 0.5rem;
   color: var(--text-secondary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 .details {
   display: flex;
@@ -292,17 +301,10 @@ const confirmDelete = async () => {
   display: none;
 }
 
-@media (max-width: 1024px) {
-  .listing-page {
-    flex-direction: column;
-  }
-}
-
 @media (min-width: 641px) {
   .go-back-button-desktop {
     display: flex;
   }
-
   .listing-page {
     display: flex;
     gap: 2rem;
@@ -311,58 +313,50 @@ const confirmDelete = async () => {
     margin: 0 auto;
     background-color: var(--color-background-1);
   }
-
   .image-header {
     position: static;
   }
-
   .header-actions {
     display: none;
   }
-
   .actions-desktop {
     display: flex;
   }
-
   .house-details-content {
     padding: 1.25rem;
+    margin-top: 0;
+    background: var(--color-background-2);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .location-info {
+    margin-bottom: 1rem;
+  }
+  .sidebar {
+    margin-top: 2.5rem;
+    padding: 0;
+  }
+  .house-details {
+    flex-direction: row;
+    gap: 2rem;
+  }
+  .house-image {
+    height: 500px;
+  }
+  .house-info {
+    width: 50%;
   }
 }
 
-@media (max-width: 640px) {
-  .go-back-button-desktop {
-    display: none;
+@media (min-width: 1025px) {
+  .listing-page {
+    flex-direction: row;
+  }
+  .house-details {
+    gap: 3rem;
   }
   .house-image {
-    height: 55vh;
-  }
-  .main-content {
-    padding: 0;
-  }
-  .listing-page {
-    padding: 0;
-  }
-  .house-details-content {
-    padding: 1.5rem;
-    margin-top: -5rem;
-    background: var(--color-background-2);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    position: relative;
-    z-index: 5;
-  }
-  .actions-desktop {
-    display: none;
-  }
-  .location-info {
-    margin-bottom: 0.5rem;
-  }
-  .sidebar {
-    margin-top: 0;
-    padding: 1rem;
-  }
-  .house-details-content {
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    height: 600px;
   }
 }
 </style>

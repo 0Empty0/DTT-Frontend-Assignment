@@ -48,8 +48,7 @@ const deleteListing = () => {
 const confirmDelete = async () => {
   try {
     await houseStore.removeHouse(props.house.id)
-  } catch (error) {
-    console.error('Failed to delete listing:', error)
+  } catch {
     alert('Failed to delete listing.')
   } finally {
     showDeleteModal.value = false
@@ -58,11 +57,11 @@ const confirmDelete = async () => {
 </script>
 
 <template>
-  <div class="house-card">
-    <img :src="imageUrl" class="house-img" :alt="house.title" @click="goToDetails" />
+  <div class="house-card" @click="goToDetails">
+    <img :src="imageUrl" class="house-img" :alt="house.title" />
     <div class="house-content">
       <div class="house-header">
-        <h2 class="house-title" @click="goToDetails">{{ address }}</h2>
+        <h2 class="house-title">{{ address }}</h2>
         <div class="house-actions" v-if="house.madeByMe">
           <IconButton icon="edit" aria-label="Edit" @click.stop="goToEdit" size="16" />
           <IconButton icon="delete" aria-label="Delete" @click.stop="deleteListing" size="16" />
@@ -78,12 +77,14 @@ const confirmDelete = async () => {
         <span class="meta-item"><BaseIcon name="size" size="16" /> {{ house.size }} m²</span>
       </div>
     </div>
-    <DeleteModal
-      :show="showDeleteModal"
-      @close="showDeleteModal = false"
-      @confirm="confirmDelete"
-    />
   </div>
+
+  <DeleteModal
+    :show="showDeleteModal"
+    @close="showDeleteModal = false"
+    @confirm="confirmDelete"
+    @click.stop
+  />
 </template>
 
 <style scoped>
@@ -95,6 +96,7 @@ const confirmDelete = async () => {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
   overflow: hidden;
   align-items: stretch;
+  cursor: pointer;
 }
 .house-card + .house-card {
   margin-top: 1rem;
@@ -106,7 +108,6 @@ const confirmDelete = async () => {
   flex-shrink: 0;
   background: var(--color-tertiary);
   border-radius: 0.5rem;
-  cursor: pointer;
 }
 .house-content {
   flex: 1;
@@ -125,7 +126,6 @@ const confirmDelete = async () => {
   font-size: var(--f-h2-desktop);
   font-weight: 700;
   margin-bottom: 0.25rem;
-  cursor: pointer;
 }
 .house-actions {
   display: flex;

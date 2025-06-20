@@ -106,8 +106,10 @@ export const useHouseStore = defineStore('houses', () => {
    */
   async function editHouse(id, payload) {
     const updated = await updateHouse(id, payload)
-    const idx = list.value.findIndex((h) => h.id === Number(id))
-    if (idx !== -1) list.value[idx] = updated
+    const idx = list.value.findIndex((h) => h && h.id === Number(id))
+    if (idx !== -1 && list.value[idx]) {
+      list.value[idx] = updated
+    }
     return updated
   }
 
@@ -118,8 +120,10 @@ export const useHouseStore = defineStore('houses', () => {
    */
   async function removeHouse(id) {
     await deleteHouse(id)
-    const idx = list.value.findIndex((h) => h.id === Number(id))
-    if (idx !== -1) list.value.splice(idx, 1)
+    const idx = list.value.findIndex((h) => h && h.id === Number(id))
+    if (idx !== -1) {
+      list.value.splice(idx, 1)
+    }
   }
 
   /**
@@ -130,8 +134,10 @@ export const useHouseStore = defineStore('houses', () => {
    */
   async function uploadImage(id, file) {
     const updated = await uploadHouseImage(id, file)
-    const idx = list.value.findIndex((h) => h.id === Number(id))
-    if (idx !== -1) list.value[idx] = updated
+    const idx = list.value.findIndex((h) => h && h.id === Number(id))
+    if (idx !== -1 && list.value[idx]) {
+      list.value[idx] = updated
+    }
     return updated
   }
 

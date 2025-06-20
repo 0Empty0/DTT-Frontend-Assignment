@@ -38,9 +38,7 @@ const initialFormData = computed(() => {
 onMounted(async () => {
   try {
     house.value = await houseStore.fetchHouseById(route.params.id)
-    console.log(house.value)
-  } catch (error) {
-    console.error(`Failed to fetch house details for ID ${route.params.id}:`, error)
+  } catch {
     router.push({ name: 'Home' })
   }
 })
@@ -67,8 +65,7 @@ const handleSubmit = async (formData) => {
       await houseStore.uploadImage(house.value.id, formData.picture)
     }
     router.push({ name: 'House', params: { id: house.value.id } })
-  } catch (error) {
-    console.error('Failed to update listing:', error)
+  } catch {
     formError.value = 'Failed to update listing. Please try again.'
   }
 }
@@ -82,7 +79,7 @@ const goBack = () => {
   <div class="edit-listing-page">
     <GoBackButton @goBack="goBack" label="Back to overview" class="go-back-desktop" />
     <div class="title-wrapper">
-      <IconButton icon="back_grey" class="back-button" @click="goBack" />
+      <IconButton icon="back_grey" class="back-button go-back-mobile" @click="goBack" />
       <h1 class="title">Edit listing</h1>
     </div>
     <HouseForm
@@ -97,7 +94,9 @@ const goBack = () => {
 
 <style scoped>
 .edit-listing-page {
-  max-width: 500px;
+  width: 100%;
+  max-width: unset;
+  padding-bottom: 24px;
 }
 .title {
   margin-block: 1rem;
@@ -107,37 +106,45 @@ const goBack = () => {
   margin-top: 1rem;
   text-align: center;
 }
-
-@media (min-width: 641px) {
-  .go-back-mobile {
-    display: none;
-  }
+.go-back-desktop {
+  display: none;
+}
+.title-wrapper {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'button title .';
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  padding-bottom: 1rem;
+}
+.go-back-mobile {
+  grid-area: button;
+}
+.title {
+  grid-area: title;
+  text-align: center;
 }
 
-@media (max-width: 640px) {
-  .new-listing-page {
-    width: 100%;
-    max-width: unset;
-  }
-  .go-back-desktop {
-    display: none;
-  }
-  .title-wrapper {
-    display: grid;
-    grid-template-columns: 32px 1fr 32px;
-    grid-template-rows: 1fr;
-    grid-template-areas: 'button title .';
-    justify-content: center;
-    align-items: center;
-    padding: 0 1rem;
-    padding-bottom: 1rem;
+@media (min-width: 641px) {
+  .edit-listing-page {
+    max-width: 500px;
+    width: auto;
   }
   .go-back-mobile {
-    grid-area: button;
+    display: none;
+  }
+  .go-back-desktop {
+    display: block;
+  }
+  .title-wrapper {
+    display: block;
+    padding: 0;
   }
   .title {
-    grid-area: title;
-    text-align: center;
+    text-align: left;
+    grid-area: unset;
   }
 }
 </style>

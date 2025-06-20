@@ -50,10 +50,12 @@ const select = (value) => {
   color: #fff;
 }
 
-@media (max-width: 640px) {
-  .tab {
-    flex: 1;
-    padding-block: 0.75rem;
+.toggle-tabs {
+  display: none;
+}
+@media (min-width: 641px) {
+  .toggle-tabs {
+    display: flex;
   }
 }
 </style>
