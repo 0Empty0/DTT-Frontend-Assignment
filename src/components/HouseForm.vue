@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import FormInput from '@/components/ui/FormInput.vue'
 import FormTextarea from '@/components/ui/FormTextarea.vue'
 import FormSelect from '@/components/ui/FormSelect.vue'
@@ -37,7 +37,35 @@ const bathroomsRef = ref(null)
 const constructionDateRef = ref(null)
 const descriptionRef = ref(null)
 
-const requiredValidator = (value) => (value ? '' : 'Required field missing.')
+const isRequiredFieldValid = (value) => {
+  return value !== null && value !== undefined && value !== ''
+}
+
+const requiredValidator = (value) => {
+  if (isRequiredFieldValid(value)) {
+    return ''
+  }
+  return 'Required field missing.'
+}
+
+const isFormValid = computed(() => {
+  const requiredFields = [
+    'streetName',
+    'houseNumber',
+    'postalCode',
+    'city',
+    'picture',
+    'price',
+    'size',
+    'garage',
+    'bedrooms',
+    'bathrooms',
+    'constructionDate',
+    'description',
+  ]
+
+  return requiredFields.every((field) => isRequiredFieldValid(form.value[field]))
+})
 
 const garageOptions = [
   { label: 'Yes', value: 'yes' },
@@ -191,7 +219,9 @@ const handleSubmit = () => {
       :validator="requiredValidator"
     />
 
-    <PrimaryButton type="submit">{{ isEdit ? 'SAVE' : 'POST' }}</PrimaryButton>
+    <PrimaryButton type="submit" class="primary-btn" :class="{ disabled: !isFormValid }">{{
+      isEdit ? 'SAVE' : 'POST'
+    }}</PrimaryButton>
   </form>
 </template>
 

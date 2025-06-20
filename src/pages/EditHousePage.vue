@@ -38,7 +38,6 @@ const initialFormData = computed(() => {
 onMounted(async () => {
   try {
     house.value = await houseStore.fetchHouseById(route.params.id)
-    console.log(house.value)
   } catch (error) {
     console.error(`Failed to fetch house details for ID ${route.params.id}:`, error)
     router.push({ name: 'Home' })

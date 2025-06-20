@@ -14,8 +14,6 @@ const internalValue = computed({
   set: (v) => emit('update:modelValue', v),
 })
 
-console.log('internalValue', internalValue.value)
-
 const showClear = computed(() => internalValue.value.length > 0)
 
 function clearInput() {
