@@ -28,44 +28,49 @@ const handleCreate = () => {
 </script>
 
 <template>
-  <div class="houses-page">
-    <h1 class="title">Houses</h1>
-    <PrimaryButton @click="handleCreate"
-      ><BaseIcon name="plus_white" size="16" :class="['plus-icon']" /> CREATE NEW</PrimaryButton
-    >
-    <button class="mobile-btn" @click="handleCreate">
-      <BaseIcon name="plus_grey" size="24" />
-    </button>
-  </div>
-  <div class="houses-controls">
-    <SearchInput v-model="houseStore.searchTerm" placeholder="Search for a house" />
-    <ToggleTabs v-model="houseStore.sortBy" :options="sortOptions" />
-  </div>
-  <div v-if="houseStore.status === 'loading'" class="houses-loading">Loading…</div>
-  <div v-else-if="houseStore.status === 'error'" class="houses-error">{{ houseStore.error }}</div>
+  <div class="home-page">
+    <div class="houses-page">
+      <h1 class="title">Houses</h1>
+      <PrimaryButton @click="handleCreate"
+        ><BaseIcon name="plus_white" size="16" :class="['plus-icon']" /> CREATE NEW</PrimaryButton
+      >
+      <button class="mobile-btn" @click="handleCreate">
+        <BaseIcon name="plus_grey" size="24" />
+      </button>
+    </div>
+    <div class="houses-controls">
+      <SearchInput v-model="houseStore.searchTerm" placeholder="Search for a house" />
+      <ToggleTabs v-model="houseStore.sortBy" :options="sortOptions" />
+    </div>
+    <div v-if="houseStore.status === 'loading'" class="houses-loading">Loading…</div>
+    <div v-else-if="houseStore.status === 'error'" class="houses-error">{{ houseStore.error }}</div>
 
-  <div v-else>
-    <p
-      v-if="houseStore.searchTerm !== '' && houseStore.filteredSortedList.length !== 0"
-      class="houses-found"
-    >
-      {{ houseStore.filteredSortedList.length }} results found
-    </p>
-    <HouseCard
-      v-for="house in houseStore.filteredSortedList"
-      :key="house.id"
-      :house="house"
-      class="house-card-item"
-    />
-    <div v-if="!houseStore.filteredSortedList.length" class="houses-empty">
-      <img :src="emptyHouses" alt="No results found" />
-      <p class="message">No results found.</p>
-      <p>Please try another keyword.</p>
+    <div v-else>
+      <p
+        v-if="houseStore.searchTerm !== '' && houseStore.filteredSortedList.length !== 0"
+        class="houses-found"
+      >
+        {{ houseStore.filteredSortedList.length }} results found
+      </p>
+      <HouseCard
+        v-for="house in houseStore.filteredSortedList"
+        :key="house.id"
+        :house="house"
+        class="house-card-item"
+      />
+      <div v-if="!houseStore.filteredSortedList.length" class="houses-empty">
+        <img :src="emptyHouses" alt="No results found" />
+        <p class="message">No results found.</p>
+        <p>Please try another keyword.</p>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.home-page {
+  padding-bottom: 24px;
+}
 .plus-icon {
   margin-right: 1rem;
 }

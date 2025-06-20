@@ -47,7 +47,7 @@ const goBack = () => {
   <div class="new-listing-page">
     <GoBackButton @goBack="goBack" label="Back to overview" class="go-back-desktop" />
     <div class="title-wrapper">
-      <IconButton icon="back_grey" class="back-button" @click="goBack" />
+      <IconButton icon="back_grey" class="back-button go-back-mobile" @click="goBack" />
       <h1 class="title">Create new listing</h1>
     </div>
     <HouseForm @submit="handleSubmit" />
@@ -58,6 +58,7 @@ const goBack = () => {
 <style scoped>
 .new-listing-page {
   max-width: 500px;
+  padding-bottom: 24px;
 }
 .title {
   margin-block: 1rem;
