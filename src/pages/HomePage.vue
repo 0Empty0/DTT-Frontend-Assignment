@@ -14,7 +14,7 @@ const router = useRouter()
 const houseStore = useHouseStore()
 
 onMounted(() => {
-  if (houseStore.status === 'idle') houseStore.fetchHouses()
+  houseStore.fetchHouses()
 })
 
 const sortOptions = [
