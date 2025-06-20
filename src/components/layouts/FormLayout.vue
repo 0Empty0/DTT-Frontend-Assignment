@@ -26,17 +26,23 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 150%;
   object-fit: cover;
   z-index: -1;
 }
 .main {
   background: none;
 }
+.form-layout {
+  padding: 1rem;
+}
 
-@media (max-width: 640px) {
+@media (min-width: 641px) {
   .background {
-    height: 150%;
+    height: 100%;
+  }
+  .form-layout {
+    padding: 2rem;
   }
 }
 </style>

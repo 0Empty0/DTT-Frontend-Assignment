@@ -20,6 +20,7 @@ import logo from '@/assets/images/img_logo_dtt@3x.png'
 
 <style scoped>
 .header {
+  display: none;
   padding: 1rem;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   position: sticky;
@@ -53,9 +54,12 @@ import logo from '@/assets/images/img_logo_dtt@3x.png'
   color: #000;
 }
 
-@media (max-width: 640px) {
+.nav-list {
+  display: flex;
+}
+@media (min-width: 641px) {
   .header {
-    display: none;
+    display: block;
   }
 }
 </style>

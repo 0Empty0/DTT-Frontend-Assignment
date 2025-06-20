@@ -74,18 +74,49 @@ const handleCreate = () => {
 .plus-icon {
   margin-right: 1rem;
 }
+
 .houses-page {
-  display: flex;
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  grid-template-rows: 1fr;
+  grid-template-areas: '. title button';
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
+  padding: 1rem;
+  padding-bottom: 0;
   margin-bottom: 2rem;
+}
+.title {
+  text-align: center;
+  grid-area: title;
+}
+.mobile-btn {
+  grid-area: button;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.primary-btn {
+  display: none;
 }
 .houses-controls {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 2rem;
 }
+.houses-found {
+  margin-bottom: 1rem;
+  font-size: var(--f-body-desktop);
+  font-weight: 700;
+}
+.house-card-item {
+  margin: 0 1rem;
+}
+
 .houses-loading,
 .houses-error {
   text-align: center;
@@ -111,61 +142,36 @@ const handleCreate = () => {
   color: var(--text-color-primary);
   margin: 0;
 }
-.houses-found {
-  font-size: var(--f-body-desktop);
-  font-weight: 700;
-  margin-bottom: 2rem;
-}
-.mobile-btn {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
+
 @media (min-width: 641px) {
   .mobile-btn {
     display: none;
   }
-}
-
-@media (max-width: 640px) {
-  .houses-header,
-  .houses-controls {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-  .houses-title {
-    font-size: var(--f-h1-mobile);
+  .primary-btn {
+    display: inline-flex;
   }
   .houses-page {
-    display: grid;
-    grid-template-columns: 32px 1fr 32px;
-    grid-template-rows: 1fr;
-    grid-template-areas: '. title button';
-    justify-content: center;
+    display: flex;
     align-items: center;
-    padding: 1rem;
-    padding-bottom: 0;
+    justify-content: space-between;
+    padding: 0;
+    grid-template-columns: unset;
+    grid-template-rows: unset;
+    grid-template-areas: unset;
   }
   .title {
-    text-align: center;
-    grid-area: title;
-  }
-  .mobile-btn {
-    grid-area: button;
-  }
-  .primary-btn {
-    display: none;
+    text-align: left;
   }
   .houses-controls {
-    margin-bottom: 1rem;
-    padding: 0 1rem;
+    flex-direction: row;
+    margin-bottom: 2rem;
+    padding: 0;
   }
   .houses-found {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
   .house-card-item {
-    margin: 0 1rem;
+    margin: 0;
   }
 }
 </style>

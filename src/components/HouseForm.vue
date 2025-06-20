@@ -230,6 +230,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 0 1rem;
 }
 
 .form-row {
@@ -243,9 +244,9 @@ form {
   justify-content: center;
 }
 
-@media (max-width: 640px) {
+@media (min-width: 641px) {
   .house-form {
-    padding: 0 1rem;
+    padding: 0;
   }
 }
 </style>
