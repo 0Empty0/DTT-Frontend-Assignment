@@ -32,8 +32,7 @@ const handleSubmit = async (formData) => {
       await houseStore.uploadImage(house.id, formData.picture)
     }
     router.push({ name: 'House', params: { id: house.id } })
-  } catch (error) {
-    console.error('Failed to create new listing:', error)
+  } catch {
     formError.value = 'Failed to create new listing. Please try again.'
   }
 }

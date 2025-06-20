@@ -57,28 +57,27 @@ const recommendedList = computed(() => {
     .slice(0, 3)
 })
 
-const fetchHouseDetails = async (id) => {
+const fetchHouseDetails = async () => {
   try {
     house.value = await houseStore.fetchHouseById(route.params.id)
 
     if (!houseStore.list.length) {
       await houseStore.fetchHouses()
     }
-  } catch (error) {
-    console.error(`Failed to fetch house details for ID ${id}:`, error)
+  } catch {
     router.push({ name: 'Home' })
   }
 }
 
 onMounted(() => {
-  fetchHouseDetails(route.params.id)
+  fetchHouseDetails()
 })
 
 watch(
   () => route.params.id,
   (newId) => {
     if (newId) {
-      fetchHouseDetails(newId)
+      fetchHouseDetails()
     }
   },
 )
@@ -99,8 +98,7 @@ const confirmDelete = async () => {
   try {
     await houseStore.removeHouse(house.value.id)
     router.push({ name: 'Home' })
-  } catch (error) {
-    console.error('Failed to delete listing:', error)
+  } catch {
     alert('Failed to delete listing.')
   } finally {
     showDeleteModal.value = false

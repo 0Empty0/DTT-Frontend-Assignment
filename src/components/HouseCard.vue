@@ -48,8 +48,7 @@ const deleteListing = () => {
 const confirmDelete = async () => {
   try {
     await houseStore.removeHouse(props.house.id)
-  } catch (error) {
-    console.error('Failed to delete listing:', error)
+  } catch {
     alert('Failed to delete listing.')
   } finally {
     showDeleteModal.value = false

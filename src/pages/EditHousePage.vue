@@ -38,8 +38,7 @@ const initialFormData = computed(() => {
 onMounted(async () => {
   try {
     house.value = await houseStore.fetchHouseById(route.params.id)
-  } catch (error) {
-    console.error(`Failed to fetch house details for ID ${route.params.id}:`, error)
+  } catch {
     router.push({ name: 'Home' })
   }
 })
@@ -66,8 +65,7 @@ const handleSubmit = async (formData) => {
       await houseStore.uploadImage(house.value.id, formData.picture)
     }
     router.push({ name: 'House', params: { id: house.value.id } })
-  } catch (error) {
-    console.error('Failed to update listing:', error)
+  } catch {
     formError.value = 'Failed to update listing. Please try again.'
   }
 }

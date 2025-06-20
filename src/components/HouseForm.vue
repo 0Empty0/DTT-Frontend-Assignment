@@ -24,18 +24,20 @@ watch(
   { immediate: true, deep: true },
 )
 
-const streetNameRef = ref(null)
-const houseNumberRef = ref(null)
-const postalCodeRef = ref(null)
-const cityRef = ref(null)
-const pictureRef = ref(null)
-const priceRef = ref(null)
-const sizeRef = ref(null)
-const garageRef = ref(null)
-const bedroomsRef = ref(null)
-const bathroomsRef = ref(null)
-const constructionDateRef = ref(null)
-const descriptionRef = ref(null)
+const formRefs = ref({
+  streetName: null,
+  houseNumber: null,
+  postalCode: null,
+  city: null,
+  picture: null,
+  price: null,
+  size: null,
+  garage: null,
+  bedrooms: null,
+  bathrooms: null,
+  constructionDate: null,
+  description: null,
+})
 
 const isRequiredFieldValid = (value) => {
   return value !== null && value !== undefined && value !== ''
@@ -49,21 +51,7 @@ const requiredValidator = (value) => {
 }
 
 const isFormValid = computed(() => {
-  const requiredFields = [
-    'streetName',
-    'houseNumber',
-    'postalCode',
-    'city',
-    'picture',
-    'price',
-    'size',
-    'garage',
-    'bedrooms',
-    'bathrooms',
-    'constructionDate',
-    'description',
-  ]
-
+  const requiredFields = Object.keys(formRefs.value)
   return requiredFields.every((field) => isRequiredFieldValid(form.value[field]))
 })
 
@@ -73,21 +61,7 @@ const garageOptions = [
 ]
 
 const validateForm = () => {
-  const refs = [
-    streetNameRef,
-    houseNumberRef,
-    postalCodeRef,
-    cityRef,
-    pictureRef,
-    priceRef,
-    sizeRef,
-    garageRef,
-    bedroomsRef,
-    bathroomsRef,
-    constructionDateRef,
-    descriptionRef,
-  ]
-  const validations = refs.map((ref) => ref.value?.validate())
+  const validations = Object.values(formRefs.value).map((ref) => ref?.validate())
   return validations.every((isValid) => isValid)
 }
 
@@ -101,7 +75,7 @@ const handleSubmit = () => {
 <template>
   <form @submit.prevent="handleSubmit" class="house-form">
     <FormInput
-      ref="streetNameRef"
+      :ref="(el) => (formRefs.streetName = el)"
       id="streetName"
       v-model="form.streetName"
       label="Street name*"
@@ -111,7 +85,7 @@ const handleSubmit = () => {
 
     <div class="form-row">
       <FormInput
-        ref="houseNumberRef"
+        :ref="(el) => (formRefs.houseNumber = el)"
         id="houseNumber"
         v-model="form.houseNumber"
         label="House number*"
@@ -127,7 +101,7 @@ const handleSubmit = () => {
     </div>
 
     <FormInput
-      ref="postalCodeRef"
+      :ref="(el) => (formRefs.postalCode = el)"
       id="postalCode"
       v-model="form.postalCode"
       label="Postal code*"
@@ -135,7 +109,7 @@ const handleSubmit = () => {
       :validator="requiredValidator"
     />
     <FormInput
-      ref="cityRef"
+      :ref="(el) => (formRefs.city = el)"
       id="city"
       v-model="form.city"
       label="City*"
@@ -143,7 +117,7 @@ const handleSubmit = () => {
       :validator="requiredValidator"
     />
     <FormImageUpload
-      ref="pictureRef"
+      :ref="(el) => (formRefs.picture = el)"
       id="picture"
       v-model="form.picture"
       label="Upload picture (PNG or JPG)*"
@@ -151,7 +125,7 @@ const handleSubmit = () => {
       :initial-picture="initialData.picture"
     />
     <FormInput
-      ref="priceRef"
+      :ref="(el) => (formRefs.price = el)"
       id="price"
       v-model="form.price"
       label="Price*"
@@ -164,7 +138,7 @@ const handleSubmit = () => {
 
     <div class="form-row">
       <FormInput
-        ref="sizeRef"
+        :ref="(el) => (formRefs.size = el)"
         id="size"
         v-model="form.size"
         label="Size*"
@@ -174,7 +148,7 @@ const handleSubmit = () => {
         :validator="requiredValidator"
       />
       <FormSelect
-        ref="garageRef"
+        :ref="(el) => (formRefs.garage = el)"
         id="garage"
         v-model="form.garage"
         label="Garage*"
@@ -185,7 +159,7 @@ const handleSubmit = () => {
 
     <div class="form-row">
       <FormInput
-        ref="bedroomsRef"
+        :ref="(el) => (formRefs.bedrooms = el)"
         id="bedrooms"
         v-model="form.bedrooms"
         label="Bedrooms*"
@@ -193,7 +167,7 @@ const handleSubmit = () => {
         :validator="requiredValidator"
       />
       <FormInput
-        ref="bathroomsRef"
+        :ref="(el) => (formRefs.bathrooms = el)"
         id="bathrooms"
         v-model="form.bathrooms"
         label="Bathrooms*"
@@ -203,7 +177,7 @@ const handleSubmit = () => {
     </div>
 
     <FormInput
-      ref="constructionDateRef"
+      :ref="(el) => (formRefs.constructionDate = el)"
       id="constructionDate"
       v-model="form.constructionDate"
       label="Construction date*"
@@ -211,7 +185,7 @@ const handleSubmit = () => {
       :validator="requiredValidator"
     />
     <FormTextarea
-      ref="descriptionRef"
+      :ref="(el) => (formRefs.description = el)"
       id="description"
       v-model="form.description"
       label="Description*"
